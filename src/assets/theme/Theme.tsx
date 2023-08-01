@@ -9,8 +9,17 @@ const theme = createTheme({
       main: "#ffffff",
     },
   },
-
-
+  components: {
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiInputBase-root': {
+            border: 'none', // Remove the border
+          },
+        },
+      },
+    },
+  },
 });
 
 export default theme;
