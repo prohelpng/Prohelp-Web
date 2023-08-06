@@ -14,7 +14,7 @@ const RoundedButton = styled(Button)<CustomButtonProps>(({ theme }) => ({
     borderRadius: '32px',
     textTransform: 'capitalize',
     '&:hover': {
-      background: theme.palette.primary.main,
+      background: "#131022",
       color: 'white',
     },
 }));

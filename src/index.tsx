@@ -1,18 +1,34 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import theme from "./assets/theme/Theme"
-import { ThemeProvider } from '@mui/material/styles';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import theme from "./assets/theme/Theme";
+import { ThemeProvider } from "@mui/material/styles";
+import { BrowserRouter as Router } from "react-router-dom";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
+import { SWRConfig } from "swr";
+import APIService from "./service";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <App />
+      <Provider store={store}>
+        <Router>
+          <SWRConfig
+            value={{
+              // refreshInterval: 3000,
+              fetcher: (url) => APIService.fetcher(url),
+            }}
+          >
+            <App />
+          </SWRConfig>
+        </Router>
+      </Provider>
     </ThemeProvider>
   </React.StrictMode>
 );

@@ -1,6 +1,6 @@
 import * as React from "react"
 import Box from "@mui/system/Box"
-import { useTheme } from "@mui/material/styles"
+import { useTheme, styled } from "@mui/material/styles"
 import brand from "../../assets/images/longo_light.svg"
 import useMediaQuery from "@mui/material/useMediaQuery"
 import { NavLink } from "react-router-dom"
@@ -10,18 +10,8 @@ import googlePlayLogo from "../../assets/images/googleplay.svg"
 import IconButton from "@mui/material/IconButton"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
-import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faChartLine,
-    faMobileRetro,
-    faSackDollar,
-    faBuildingColumns,
-    faBagShopping,
-  } from "@fortawesome/free-solid-svg-icons";
 
 import SvgIcon from '@mui/material/SvgIcon';
-import { styled } from '@mui/material/styles';
 
 
 interface CustomButtonProps {
@@ -83,7 +73,7 @@ export default function Footer() {
     alignItems="center" 
     paddingBottom={1} >
         {/* Brand long logo here */}
-        <img src={brand} width={deviceType === "mobile" ? "60%" : deviceType === "tablet" ? "30%" : "20%"} />
+        <img src={brand} width={deviceType === "mobile" ? "60%" : deviceType === "tablet" ? "30%" : "20%"} alt="" />
         <Box 
             width={deviceType === "mobile" ? "100%" : deviceType === "tablet" ? "86%" : "40%"} 
             paddingTop={6} 
