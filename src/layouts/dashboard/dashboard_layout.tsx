@@ -17,7 +17,7 @@ import ListItemText from "@mui/material/ListItemText";
 
 import brand from "../../assets/images/longo_light.svg";
 import brandDark from "../../assets/images/longo_dark.svg";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 import exploreIcon from "../../assets/images/explore_icon.svg";
 import jobIcon from "../../assets/images/jobs.svg";
@@ -39,6 +39,10 @@ import MaterialSearchbar from "../../components/inputs/material_search";
 import { SearchFieldTop } from "../../components/inputs/search_field";
 
 import customMenuIcon from "../../assets/images/menu_icon.svg";
+import { useAppDispatch } from "../../utils/hooks/apphook";
+import { setAuth, setProfile } from "../../redux/reducers/auth";
+import { setLoading } from "../../redux/reducers/loader";
+import { toast } from "react-hot-toast";
 
 const drawerWidth = 260;
 
@@ -119,7 +123,7 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-const settings = ["Account", "Logout"];
+const settings = ["Account", "Homepage", "Logout"];
 
 const MListItemButton = styled(ListItemButton)<ListItemButtonProps>(
   ({ theme }) => ({
@@ -141,9 +145,13 @@ const MListItemButton = styled(ListItemButton)<ListItemButtonProps>(
 export default function DashbboardLayout() {
   const theme = useTheme();
   const navigate = useNavigate();
+  const currlocation = useLocation();
   const [selectedIndex, setSelectedIndex] = React.useState(0);
+  // const [selectedIndex, setSelectedIndex] = React.useState(0);
   const [open, setOpen] = React.useState(true);
   const [deviceType, setDeviceType] = React.useState("mobile");
+
+  const dispatch = useAppDispatch();
 
   const mobile = useMediaQuery(theme.breakpoints.only("xs"));
   const tablet = useMediaQuery(theme.breakpoints.only("sm"));
@@ -161,6 +169,35 @@ export default function DashbboardLayout() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+
+  const logout = () => {
+    dispatch(setLoading(true));
+    try {
+      setTimeout(() => {
+        localStorage.clear();
+        dispatch(setAuth(false));
+        dispatch(setProfile(null));
+        dispatch(setLoading(false));
+        toast.success("Logged out successfully");
+        navigate("/");
+      }, 2000);
+    } catch (error) {
+      console.log(error);
+      dispatch(setLoading(false));
+    }
+  };
+
+  React.useEffect(() => {
+    if (currlocation.pathname === "/dashboard/explore") {
+      setSelectedIndex(0);
+    } else if (currlocation.pathname === "/dashboard/jobs") {
+      setSelectedIndex(1);
+    } else if (currlocation.pathname === "/dashboard/message") {
+      setSelectedIndex(2);
+    } else if (currlocation.pathname === "/dashboard/account") {
+      setSelectedIndex(5);
+    }
+  }, [currlocation]);
 
   const handlleItemClick = (
     e: React.MouseEvent<HTMLElement>,
@@ -342,7 +379,20 @@ export default function DashbboardLayout() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem
+                  key={setting}
+                  onClick={() => {
+                    handleCloseUserMenu();
+                    if (setting === "Logout") {
+                      logout();
+                    } else if (setting === "Homepage") {
+                      navigate("/");
+                    } else {
+                      navigate("/dashboard/account");
+                      setSelectedIndex(5);
+                    }
+                  }}
+                >
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
@@ -452,39 +502,37 @@ export default function DashbboardLayout() {
             <br />
             <List>
               {drawerListItems2?.map((data, index) => (
-                <ListItem key={index} disablePadding sx={{ display: "block" }}>
-                  <ListItemButton
+                <ListItem
+                  key={index}
+                  disablePadding
+                  sx={{
+                    display: "block",
+                    ...(index + 4 === selectedIndex && activeRootStyle),
+                  }}
+                >
+                  <MListItemButton
                     sx={{
                       minHeight: 48,
                       justifyContent: open ? "initial" : "center",
                       px: 2.5,
                     }}
+                    selected={index + 4 === selectedIndex}
+                    onClick={(e) => handlleItemClick(e, index + 4, data?.route)}
                   >
-                    {data?.key === "support" ? (
-                      <img
-                        src={data.icon}
-                        alt=""
-                        width={36}
-                        style={{
-                          marginRight: open ? 4 : 0,
-                        }}
-                      />
-                    ) : (
-                      <img
-                        src={data.icon}
-                        alt=""
-                        style={{
-                          marginRight: open ? 4 : 0,
-                        }}
-                      />
-                    )}
+                    <img
+                      src={data.icon}
+                      alt=""
+                      style={{
+                        marginRight: open ? 4 : 0,
+                      }}
+                    />
 
                     {open && <Box pr={data.key === "explore" ? 2 : 3} />}
                     <ListItemText
                       primary={data?.title}
                       sx={{ opacity: open ? 1 : 0 }}
                     />
-                  </ListItemButton>
+                  </MListItemButton>
                 </ListItem>
               ))}
             </List>
@@ -497,9 +545,14 @@ export default function DashbboardLayout() {
             >
               <div>
                 {open ? (
-                  <RoundedButton startIcon={<Logout />}>Logout</RoundedButton>
+                  <RoundedButton
+                    startIcon={<Logout />}
+                    onClick={() => logout()}
+                  >
+                    Logout
+                  </RoundedButton>
                 ) : (
-                  <IconButton>
+                  <IconButton onClick={() => logout()}>
                     <Logout sx={{ color: "white" }} />
                   </IconButton>
                 )}

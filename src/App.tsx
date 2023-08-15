@@ -13,7 +13,7 @@ import MobileNavbar, {
 } from "./layouts/navbars/mobile_navbar";
 import JoinNow from "./pages/auth/join";
 import Signup from "./pages/auth/signup";
-import { Backdrop, CircularProgress } from "@mui/material";
+import { Backdrop, CircularProgress, Container, Toolbar } from "@mui/material";
 
 import { useAppSelector, useAppDispatch } from "./utils/hooks/apphook";
 import Login from "./pages/auth/login";
@@ -22,14 +22,23 @@ import { Toaster } from "react-hot-toast";
 import DashbboardLayout from "./layouts/dashboard/dashboard_layout";
 import Explore from "./pages/dashboard/explore";
 import Jobs from "./pages/dashboard/jobs";
-import ChatPage from "./pages/dashboard/chat";
 import Support from "./pages/dashboard/support";
 import useProfile from "./utils/hooks/use_profile";
 import { setAuth, setProfile } from "./redux/reducers/auth";
 import useProfessionals from "./utils/hooks/use_professinals";
-import { setProfessionals } from "./redux/reducers/users";
+import { setProfessionals, setSavedPro } from "./redux/reducers/users";
 import useJobs from "./utils/hooks/useJobs";
-import { setJobs } from "./redux/reducers/jobs";
+import { setJobs, setMyPostedJobs } from "./redux/reducers/jobs";
+import ExplorePro from "./pages/explore";
+import usePostedJobs from "./utils/hooks/usePostedJobs";
+import UserProfile from "./pages/user/profile";
+import MessageCenter from "./pages/messages";
+import useConversations from "./utils/hooks/use_chats";
+import { setConversations } from "./redux/reducers/messages";
+import useSavedPros from "./utils/hooks/use_saved_pros";
+import Account from "./pages/dashboard/account";
+import JobInfo from "./pages/jobs/jobInfo";
+import Category from "./pages/category";
 
 function App() {
   const [deviceType, setDeviceType] = React.useState("mobile");
@@ -48,6 +57,9 @@ function App() {
   const { data } = useProfile();
   const { data: jobData } = useJobs();
   const { data: proData } = useProfessionals();
+  const { data: savedProsData } = useSavedPros();
+  const { data: postedJobData } = usePostedJobs();
+  const { data: conversationsData } = useConversations();
 
   React.useEffect(() => {
     if (mobile) {
@@ -76,7 +88,7 @@ function App() {
     if (location.pathname.includes("/dashboard") && deviceType !== "pc") {
       setShowMobileAuthFooter(true);
     }
-  }, [location]);
+  }, [deviceType, location]);
 
   const childrenElement: JSX.Element = <Box bgcolor={"red"}></Box>;
 
@@ -91,12 +103,29 @@ function App() {
       dispatch(setProfile(data?.data));
     }
     if (proData) {
-      dispatch(setProfessionals(proData?.data));
+      dispatch(setProfessionals(proData?.docs));
     }
     if (jobData) {
       dispatch(setJobs(jobData?.docs));
     }
-  }, [data, dispatch, jobData, proData]);
+    if (postedJobData) {
+      dispatch(setMyPostedJobs(postedJobData?.data));
+    }
+    if (savedProsData) {
+      dispatch(setSavedPro(savedProsData?.data));
+    }
+    if (conversationsData) {
+      dispatch(setConversations(conversationsData?.data));
+    }
+  }, [
+    conversationsData,
+    data,
+    dispatch,
+    jobData,
+    postedJobData,
+    proData,
+    savedProsData,
+  ]);
 
   return (
     <div className="App">
@@ -126,6 +155,20 @@ function App() {
         <Route path="/signup/professional" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/verify-otp" element={<VerifyOTP />} />
+        <Route path="/explore" element={<ExplorePro />} />
+        <Route path="/jobs/:id" element={<JobInfo />} />
+        <Route path="/category/:id" element={<Category />} />
+        <Route
+          path="/professionals/:id"
+          element={
+            <Box py={5} >
+              <Toolbar/>
+              <Container>
+                <UserProfile />
+              </Container>
+            </Box>
+          }
+        />
         {isAuthenticated && (
           <Route path="/dashboard" element={<DashbboardLayout />}>
             <Route
@@ -134,8 +177,17 @@ function App() {
             />
             <Route path="/dashboard/explore" element={<Explore />} />
             <Route path="/dashboard/jobs" element={<Jobs />} />
-            <Route path="/dashboard/message" element={<ChatPage />} />
+            <Route path="/dashboard/message" element={<MessageCenter />} />
             <Route path="/dashboard/support" element={<Support />} />
+            <Route path="/dashboard/account" element={<Account />} />
+            <Route
+              path="/dashboard/professionals/:id"
+              element={<UserProfile />}
+            />
+            <Route
+              path="/dashboard/account/profile"
+              element={<UserProfile />}
+            />
           </Route>
         )}
       </Routes>

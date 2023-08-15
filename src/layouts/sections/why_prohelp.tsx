@@ -1,13 +1,13 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { useMediaQuery } from "@mui/material";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import GppGoodIcon from "@mui/icons-material/GppGood";
 import BuildCircleIcon from "@mui/icons-material/BuildCircle";
 import theme from "../../assets/theme/Theme";
+import CustomContainer from "../../components/container";
 
 export default function WhyPrpohelp(): React.JSX.Element {
   //   const theme = useTheme();
@@ -30,7 +30,7 @@ export default function WhyPrpohelp(): React.JSX.Element {
     <Box
       paddingY={deviceType === "pc" ? 16 : deviceType === "tablet" ? 12 : 8}
     >
-      <Container>
+      <CustomContainer>
         <Grid
           container
           display={"flex"}
@@ -153,7 +153,7 @@ export default function WhyPrpohelp(): React.JSX.Element {
             </Box>
           </Grid>
         </Grid>
-      </Container>
+      </CustomContainer>
     </Box>
   );
 }

@@ -72,7 +72,7 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 1}}>
+        <Box sx={{ p: 1 }}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -90,7 +90,7 @@ function a11yProps(index: number) {
 export default function TabSection() {
   const [value, setValue] = React.useState(0);
   const theme = useTheme();
-  const profile = useAppSelector((state) => state.auth.profile);
+  const savedPros = useAppSelector((state) => state.users.savedPros);
   const professionals = useAppSelector((state) => state.users.professionals);
 
   const [deviceType, setDeviceType] = React.useState("mobile");
@@ -112,14 +112,19 @@ export default function TabSection() {
     setValue(newValue);
   };
 
-  const handleChangeIndex = (index: number) => {
-    setValue(index);
-  };
+  // const handleChangeIndex = (index: number) => {
+  //   setValue(index);
+  // };
 
-  console.log("PROS", professionals);
+  // console.log("PROS", professionals);
 
   return deviceType !== "pc" ? (
-    <Box sx={{ bgcolor: "background.paper", width: deviceType ==="mobile" ? "88vw" : "94vw" }}>
+    <Box
+      sx={{
+        bgcolor: "background.paper",
+        width: deviceType === "mobile" ? "88vw" : "94vw",
+      }}
+    >
       <AppBar position="static">
         <Tabs
           value={value}
@@ -158,13 +163,20 @@ export default function TabSection() {
             {professionals
               ? professionals?.map((item: any) => (
                   // <p>{item?.bio?.firstname}</p>
-                  <ProCard data={item} />
+                  <ProCard data={item} height={275} />
                 ))
               : [1, 2, 3]?.map((item) => <ProfessionalCardLoader />)}
           </List>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          Item Two
+          <List>
+            {savedPros
+              ? savedPros?.map((item: any) => (
+                  // <p>{item?.bio?.firstname}</p>
+                  <ProCard data={item} height={275} />
+                ))
+              : [1, 2, 3]?.map((item) => <ProfessionalCardLoader />)}
+          </List>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           Item Three
@@ -192,13 +204,20 @@ export default function TabSection() {
               {professionals
                 ? professionals?.map((item: any) => (
                     // <p>{item?.bio?.firstname}</p>
-                    <ProCard data={item} />
+                    <ProCard data={item} height={275} />
                   ))
                 : [1, 2, 3]?.map((item) => <ProfessionalCardLoader />)}
             </List>
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            Item Two
+            <List>
+              {savedPros
+                ? savedPros?.map((item: any) => (
+                    // <p>{item?.bio?.firstname}</p>
+                    <ProCard data={item} height={275} />
+                  ))
+                : [1, 2, 3]?.map((item) => <ProfessionalCardLoader />)}
+            </List>
           </TabPanel>
           <TabPanel value={value} index={2} dir={theme.direction}>
             Item Three

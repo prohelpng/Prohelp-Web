@@ -4,10 +4,11 @@ import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
-import image from "../../assets/images/smiling_lady.png";
+// import image from "../../assets/images/smiling_lady.png";
 import SearchField from "../../components/inputs/search_field";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import banner from "../../assets/images/banner.jpg";
+import FreeSolo from "../../components/inputs/auto_complete";
 
 export default function Header() {
   const [deviceType, setDeviceType] = React.useState("mobile");
@@ -62,7 +63,8 @@ export default function Header() {
               >
                 Find the right professional, for you
               </Typography>
-              <SearchField />
+              <FreeSolo />
+              {/* <SearchField /> */}
             </Grid>
             {/* {deviceType === "pc" && (
             <Grid

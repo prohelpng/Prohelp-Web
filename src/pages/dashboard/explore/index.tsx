@@ -12,13 +12,14 @@ import * as React from "react";
 import RoundedButton from "../../../components/button/round_button";
 import image from "../../../assets/images/illus.png";
 import { useAppSelector } from "../../../utils/hooks/apphook";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { CustomLink } from "../../../layouts/navbars/main_navbar";
 import LinearProgressLabel from "../../../components/progress/linear_progress";
 import TabSection from "./tab_section";
 
 export default function Explore(): React.JSX.Element {
   let theme = useTheme();
+  const navigate = useNavigate();
   const [currProgress, setCurrProgress] = React.useState(0);
   const profile = useAppSelector((state) => state.auth.profile);
 
@@ -37,7 +38,6 @@ export default function Explore(): React.JSX.Element {
     }
   }, [mobile, tablet]);
 
-  //   console.log("PRofile :: ", profile);
 
   const calculateProgress = async () => {};
 
@@ -75,12 +75,12 @@ export default function Explore(): React.JSX.Element {
                 <Box
                   display={"flex"}
                   flexDirection={"column"}
-                  justifyContent={deviceType !== "pc" ? "center" : "start"}
+                  justifyContent={deviceType === "mobile" ? "center" : "start"}
                   alignItems={"center"}
                   pb={deviceType !== "pc" ? 2 : 0}
                 >
                   <Typography
-                    textAlign={deviceType !== "pc" ? "center" : "start"}
+                    textAlign={deviceType === "mobile" ? "center" : "start"}
                     variant="h5"
                     gutterBottom
                   >
@@ -121,7 +121,9 @@ export default function Explore(): React.JSX.Element {
         >
           <Card sx={{ borderRadius: 2 }}>
             <Box
-              p={4}
+              px={4}
+              pt={4}
+              pb={2}
               bgcolor={"#fff"}
               color={"white"}
               display={"flex"}
@@ -148,8 +150,11 @@ export default function Explore(): React.JSX.Element {
               >
                 {`${profile?.bio?.firstname} ${profile?.bio?.middlename} ${profile?.bio?.lastname}`}
               </Typography>
-              <Typography variant="body2" color={"black"}>
+              <Typography gutterBottom variant="body2" color={"black"}>
                 {`${profile?.email}`}
+              </Typography>
+              <Typography variant="body2" fontWeight={600} textTransform={"uppercase"} color={"primary"}>
+                {`${profile?.accountType}`}
               </Typography>
             </Box>
             <Box
@@ -188,6 +193,7 @@ export default function Explore(): React.JSX.Element {
                       mt: 2,
                     }}
                     fullWidth
+                    onClick={() => navigate("/dashboard/jobs")}
                   >
                     Post Job
                   </RoundedButton>

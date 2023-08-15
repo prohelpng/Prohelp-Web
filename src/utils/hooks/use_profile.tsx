@@ -1,9 +1,5 @@
 import useSWR from "swr";
 
-interface Props {
-  email: string;
-}
-
 export default function useProfile() {
   let authMail: string = localStorage.getItem("auth-email") ?? "";
   const { data, mutate, error } = useSWR("/user/" + authMail);

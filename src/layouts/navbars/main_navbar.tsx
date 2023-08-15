@@ -4,10 +4,9 @@ import Toolbar from "@mui/material/Toolbar";
 import CssBaseline from "@mui/material/CssBaseline";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
 import brandDark from "../../assets/images/longo_dark.svg";
 import brandLight from "../../assets/images/longo_light.svg";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { styled, useTheme } from "@mui/material/styles";
 import RoundedButton from "../../components/button/round_button";
 import useMediaQuery from "@mui/material/useMediaQuery/useMediaQuery";
@@ -15,6 +14,7 @@ import RoundedButtonOutlined from "../../components/button/rounded_button_outlin
 import { SearchFieldTop } from "../../components/inputs/search_field";
 import { Avatar, Divider, IconButton } from "@mui/material";
 import { useAppSelector } from "../../utils/hooks/apphook";
+import CustomContainer from "../../components/container";
 
 export interface Props {
   window?: () => Window;
@@ -71,9 +71,12 @@ export const CustomLink = styled(NavLink)<CustomLinkProps>(({ theme }) => ({
 export default function MainNavbar(props: Props) {
   const [deviceType, setDeviceType] = React.useState("mobile");
   const [scrolled, setScrolled] = React.useState(false);
+  const [navColor, setNavColor] = React.useState("white");
+
   const [show, setShow] = React.useState(false);
   const theme = useTheme();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleScroll = () => {
     setScrolled(window.pageYOffset > 0);
@@ -106,47 +109,120 @@ export default function MainNavbar(props: Props) {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [mobile, tablet, tabletBig]);
+
+  React.useEffect(() => {
+    if (
+      location.pathname.startsWith("/explore") ||
+      location.pathname.startsWith("/job")
+    ) {
+      setNavColor("black");
+    } else {
+      if (scrolled) {
+        setNavColor("black");
+      } else {
+        setNavColor("white");
+      }
+    }
+  }, [location, scrolled]);
 
   return (
     <React.Fragment>
       <CssBaseline />
       <ElevationScroll {...props}>
-        <AppBar position="fixed">
+        <AppBar position="fixed" sx={{ bgcolor: "red" }}>
           <Toolbar>
-            <Container sx={{ display: "flex", flexDirection: "column" }}>
+            <CustomContainer>
               {deviceType === "pc" || deviceType === "tabletBig" ? (
                 <Box
                   p={2}
+                  color={navColor}
                   display={"flex"}
                   flexDirection={"row"}
                   justifyContent={"space-between"}
                   alignItems={"center"}
                 >
-                  <Box>
-                    {scrolled ? (
+                  <Box onClick={() => navigate("/")} sx={{ cursor: "pointer" }}>
+                    {location.pathname === "/explore" ||
+                    location.pathname.startsWith("/jobs") ||
+                    location.pathname.startsWith("/professionals") ||
+                    location.pathname.startsWith("/category") ||
+                    scrolled ? (
                       <ScrolledLogo scrolled={scrolled} />
                     ) : (
                       <DefaultLogo scrolled={scrolled} />
                     )}
                   </Box>
                   {show && deviceType === "pc" && <SearchFieldTop />}
-                  <Box>
+                  <Box color={navColor}>
                     <CustomLink
-                      to={""}
-                      sx={{ color: scrolled ? "black" : "white" }}
+                      to={"/"}
+                      sx={{
+                        color:
+                          location.pathname === "/explore" ||
+                          location.pathname.startsWith("/jobs") ||
+                          location.pathname.startsWith("/professionals") ||
+                          location.pathname.startsWith("/category") ||
+                          scrolled
+                            ? "black"
+                            : "white",
+                        borderBottom:
+                          location.pathname === "/"
+                            ? scrolled
+                              ? "1px solid #000"
+                              : "1px solid #fff"
+                            : "none",
+                      }}
+                    >
+                      Home
+                    </CustomLink>
+                    <CustomLink
+                      to={"/explore"}
+                      sx={{
+                        color:
+                          location.pathname === "/explore" ||
+                          location.pathname.startsWith("/jobs") ||
+                          location.pathname.startsWith("/professionals") ||
+                          location.pathname.startsWith("/category") ||
+                          scrolled
+                            ? "black"
+                            : "white",
+                        borderBottom: location.pathname.startsWith("/explore")
+                          ? scrolled
+                            ? "1px solid #000"
+                            : "1px solid #000"
+                          : "none",
+                      }}
                     >
                       Explore
                     </CustomLink>
                     <CustomLink
-                      to={""}
-                      sx={{ color: scrolled ? "black" : "white" }}
+                      to={"/signup/recruiter"}
+                      sx={{
+                        color:
+                          location.pathname === "/explore" ||
+                          location.pathname.startsWith("/jobs") ||
+                          location.pathname.startsWith("/professionals") ||
+                          location.pathname.startsWith("/category") ||
+                          scrolled
+                            ? "black"
+                            : "white",
+                      }}
                     >
                       Become a Recruiter
                     </CustomLink>
                     <CustomLink
                       to={isAuth ? "/dashboard" : "/login"}
-                      sx={{ color: scrolled ? "black" : "white" }}
+                      sx={{
+                        color:
+                          location.pathname === "/explore" ||
+                          location.pathname.startsWith("/jobs") ||
+                          location.pathname.startsWith("/professionals") ||
+                          location.pathname.startsWith("/category") ||
+                          scrolled
+                            ? "black"
+                            : "white",
+                      }}
                     >
                       {`${
                         isAuth ? profile?.bio?.firstname + "..." : "Sign in"
@@ -164,16 +240,27 @@ export default function MainNavbar(props: Props) {
                       <RoundedButton
                         sx={{
                           width: 128,
-                          color: scrolled
-                            ? "white"
-                            : theme.palette.primary.main,
-                          backgroundColor: scrolled
-                            ? theme.palette.primary.main
-                            : "white",
+                          height: 40,
+                          color:
+                            location.pathname === "/explore" ||
+                            location.pathname.startsWith("/jobs") ||
+                            location.pathname.startsWith("/professionals") ||
+                            location.pathname.startsWith("/category") ||
+                            scrolled
+                              ? "white"
+                              : theme.palette.primary.main,
+                          backgroundColor:
+                            location.pathname === "/explore" ||
+                            location.pathname.startsWith("/jobs") ||
+                            location.pathname.startsWith("/professionals") ||
+                            location.pathname.startsWith("/category") ||
+                            scrolled
+                              ? theme.palette.primary.main
+                              : "white",
                         }}
                         onClick={() => navigate("/signup")}
                       >
-                        Sign in
+                        Join us
                       </RoundedButton>
                     )}
                   </Box>
@@ -187,13 +274,19 @@ export default function MainNavbar(props: Props) {
                   justifyContent={"space-between"}
                   alignItems={"center"}
                 >
-                  {scrolled ? (
+                  {location.pathname === "/explore" ||
+                  location.pathname.startsWith("/jobs") ||
+                  location.pathname.startsWith("/professionals") ||
+                  location.pathname.startsWith("/category") ||
+                  scrolled ? (
                     <ScrolledLogo scrolled={scrolled} />
                   ) : (
                     <DefaultLogo scrolled={scrolled} />
                   )}
                   <Box sx={{ flexGrow: 1 }} />
-                  {scrolled ? (
+                  {location.pathname.startsWith("/professionals") ||
+                  location.pathname.startsWith("/category") ||
+                  scrolled ? (
                     <>
                       <CustomLink
                         to={isAuth ? "/dashboard" : "/login"}
@@ -246,7 +339,7 @@ export default function MainNavbar(props: Props) {
                           variant="outlined"
                           sx={{
                             width: 86,
-                            height: 40,
+                            height: 36,
                             color: "white",
                           }}
                         >
@@ -260,19 +353,20 @@ export default function MainNavbar(props: Props) {
               <Divider />
               {show && deviceType === "pc" && (
                 <Box
+                  color={navColor}
                   display={"flex"}
                   flexDirection={"row"}
                   justifyContent={"space-between"}
                   alignItems={"center"}
                 >
                   <CustomLink
-                    to={""}
+                    to={"/category/graphics&design"}
                     sx={{ color: scrolled ? "black" : "white" }}
                   >
-                    Graphics & Design
+                    Branding & Design
                   </CustomLink>
                   <CustomLink
-                    to={""}
+                    to={"/category/programming&tech"}
                     sx={{ color: scrolled ? "black" : "white" }}
                   >
                     Programming & Tech
@@ -281,19 +375,25 @@ export default function MainNavbar(props: Props) {
                     to={""}
                     sx={{ color: scrolled ? "black" : "white" }}
                   >
-                    Video & Animation
+                    Catering Services
                   </CustomLink>
                   <CustomLink
                     to={""}
                     sx={{ color: scrolled ? "black" : "white" }}
                   >
-                    Writing & Translation
+                    Logistics & Travel
                   </CustomLink>
                   <CustomLink
                     to={""}
                     sx={{ color: scrolled ? "black" : "white" }}
                   >
-                    Digital Marketing
+                    Beauty & Fashion
+                  </CustomLink>
+                  <CustomLink
+                    to={""}
+                    sx={{ color: scrolled ? "black" : "white" }}
+                  >
+                    General Services
                   </CustomLink>
                 </Box>
               )}
@@ -321,23 +421,23 @@ export default function MainNavbar(props: Props) {
                     to={""}
                     sx={{ color: scrolled ? "black" : "white" }}
                   >
-                    Video & Animation
+                    Catering Services
                   </CustomLink>
                   <CustomLink
                     to={""}
                     sx={{ color: scrolled ? "black" : "white" }}
                   >
-                    Writing & Translation
+                    Logistics & Travel
                   </CustomLink>
                   <CustomLink
                     to={""}
                     sx={{ color: scrolled ? "black" : "white" }}
                   >
-                    Digital Marketing
+                    General Services
                   </CustomLink>
                 </Box>
               )}
-            </Container>
+            </CustomContainer>
           </Toolbar>
         </AppBar>
       </ElevationScroll>

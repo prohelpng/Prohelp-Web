@@ -1,17 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "../store";
+// import type { RootState } from "../store";
 
 // Define a type for the slice state
 interface UserState {
   professionals: any;
   recruiters: any;
+  savedPros: any;
 }
 
 // Define the initial state using that type
 const initialState: UserState = {
-    professionals: [],
-    recruiters: [],
+  professionals: [],
+  recruiters: [],
+  savedPros: [],
 };
 
 export const usersSlice = createSlice({
@@ -24,10 +26,13 @@ export const usersSlice = createSlice({
     setRecruiters: (state, action: PayloadAction<any>) => {
       state.recruiters = action.payload;
     },
+    setSavedPro: (state, action: PayloadAction<any>) => {
+      state.savedPros = action.payload;
+    },
   },
 });
 
-export const { setProfessionals, setRecruiters } = usersSlice.actions;
+export const { setProfessionals, setRecruiters, setSavedPro } = usersSlice.actions;
 
 // // Other code such as selectors can use the imported `RootState` type
 // export const getAuth = (state: RootState) => state.auth.isAuth;

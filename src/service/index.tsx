@@ -8,7 +8,7 @@ class APIService {
     axiosInstance.post(url, body, config).then((res) => res);
 
   static update = (url: string, id: any, body: any) =>
-    axiosInstance.patch(`${url}/${id}`, body).then((res) => res);
+    axiosInstance.put(`${url}/${id}`, body).then((res) => res);
 
   static delete = (url: string, id: any) =>
     axiosInstance.delete(`${url}/${id}`).then((res) => res);

@@ -1,8 +1,8 @@
 import useSWR from "swr";
 
 export default function useProfessionals() {
-  let authMail: string = localStorage.getItem("auth-email") ?? "";
-  const { data, mutate, error } = useSWR("/freelancers/" + authMail);
+  // let authMail: string = localStorage.getItem("auth-email") ?? "";÷
+  const { data, mutate, error } = useSWR("/freelancers");
 
   // console.log('response', error);
   const loading = !data && !error;

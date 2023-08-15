@@ -1,67 +1,54 @@
-import * as React from "react";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardContent from "@mui/material/CardContent";
-import Skeleton from "@mui/material/Skeleton";
+import { Box, Skeleton } from "@mui/material";
 
-interface Props {
-  loading?: boolean;
-}
-
-function ProCardLoader(props: Props) {
-  const { loading = true } = props;
-
+export default function ProShimmer() {
   return (
-    <Card sx={{ maxWidth: 345, m: 2 }}>
-      <CardHeader
-        avatar={
-          loading && (
-            <Skeleton
-              animation="wave"
-              variant="circular"
-              width={60}
-              height={60}
-            />
-          )
-        }
-        action={null}
-        title={
-          loading && (
-            <Skeleton
-              animation="wave"
-              height={10}
-              width="80%"
-              style={{ marginBottom: 6 }}
-            />
-          )
-        }
-        subheader={
-          loading && <Skeleton animation="wave" height={10} width="40%" />
-        }
-      />
-      {loading && (
-        <Skeleton sx={{ height: 48 }} animation="wave" variant="rectangular" />
-      )}
-      <CardContent>
-        {loading && (
-          <React.Fragment>
-            <Skeleton
-              animation="wave"
-              height={10}
-              style={{ marginBottom: 6 }}
-            />
-            <Skeleton animation="wave" height={10} width="80%" />
-          </React.Fragment>
-        )}
-      </CardContent>
-    </Card>
-  );
-}
+    <Box
+      height={320}
+      width={"100%"}
+      display={"flex"}
+      flexDirection={"column"}
+      justifyContent={"start"}
+      alignItems={"start"}
+    >
+      <Box
+        width={"100%"}
+        display={"flex"}
+        flexDirection={"row"}
+        justifyContent={"start"}
+        alignItems={"center"}
+      >
+        <Skeleton variant="circular" height={64} animation="wave" width={64} />
+        <Box width={"100%"}>
+          <Skeleton sx={{ mx: 2 }} height={18} animation="wave" width={"75%"} />
+          <Skeleton sx={{ mx: 2 }} height={18} animation="wave" width={"50%"} />
+        </Box>
+      </Box>
+      <Box width={"100%"} py={1} >
+        <Skeleton animation="wave" variant="rectangular" height={144} width={"100%"} />
 
-export default function ProfessionalCardLoader() {
-  return (
-    <div>
-      <ProCardLoader loading />
-    </div>
+        <Box
+          width={"100%"}
+          display={"flex"}
+          flexDirection={"row"}
+          justifyContent={"start"}
+          alignItems={"center"}
+          py={2}
+        >
+          <Skeleton
+            variant="rounded"
+            animation="wave"
+            height={48}
+            sx={{ mr: 2 }}
+            width={"30%"}
+          />
+          <Skeleton
+            variant="rounded"
+            animation="wave"
+            height={48}
+            width={"30%"}
+          />
+        </Box>
+      </Box>
+    </Box>
   );
 }

@@ -3,6 +3,7 @@ import loaderReducer from "./reducers/loader";
 import authReducer from "./reducers/auth";
 import usersReducer from "./reducers/users";
 import jobReducer from "./reducers/jobs";
+import messageReducer from "./reducers/messages"
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     auth: authReducer,
     users: usersReducer,
     jobs: jobReducer,
+    messages: messageReducer
   },
 });
 

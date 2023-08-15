@@ -3,6 +3,7 @@ import { Favorite, FavoriteOutlined } from "@mui/icons-material";
 import {
   Avatar,
   Box,
+  Button,
   Card,
   Chip,
   IconButton,
@@ -11,9 +12,18 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import RoundedButton from "../button/round_button";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../utils/hooks/apphook";
+import { setLoading } from "../../redux/reducers/loader";
+import APIService from "../../service";
+import { toast } from "react-hot-toast";
+import CustomizedDialog from "../dialog";
+import LoginDialogContent from "../../pages/auth/login_dialog_content";
 
 interface Props {
   data: any;
+  height: number;
 }
 
 interface CustomButtonProps {
@@ -31,11 +41,18 @@ const HoverCard = styled(Card)<CustomButtonProps>(({ theme }) => ({
 }));
 
 export default function ProCard(props: Props) {
-  let { data } = props;
+  let { data, height } = props;
   const theme = useTheme();
+  const [openDialog, setOpenDialog] = React.useState(false);
   const [isLiked, setLiked] = React.useState(false);
-
   const [deviceType, setDeviceType] = React.useState("mobile");
+
+  const dispatch = useAppDispatch();
+  let profile = useAppSelector((state) => state.auth.profile);
+  let isAuth = useAppSelector((state) => state.auth.isAuth);
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const mobile = useMediaQuery(theme.breakpoints.only("xs"));
   const tablet = useMediaQuery(theme.breakpoints.only("sm"));
@@ -50,10 +67,42 @@ export default function ProCard(props: Props) {
     }
   }, [mobile, tablet]);
 
+  React.useEffect(() => {
+    const checkLiked = () => {};
+  }, []);
+
+  const like = async () => {
+    try {
+      const email = localStorage.getItem("auth-email");
+      // guestId, guestName, userId
+      dispatch(setLoading(true));
+      let response = await APIService.update("/likeUser", email, {
+        guestId: data?.id,
+        userId: profile?.id,
+        guestName: data?.bio?.firstname + " " + data?.bio?.lastname,
+      });
+      toast.success(response?.data?.message);
+      console.log("DATA RES", response);
+      dispatch(setLoading(false));
+      setLiked(!like);
+    } catch (error: any) {
+      dispatch(setLoading(false));
+      console.log("ERRO", error);
+      toast.error(error?.message ?? "Check your internet connection");
+    }
+  };
+
   return (
-    <HoverCard sx={{ my: 2 }}>
+    <HoverCard sx={{ my: 2, height: height }}>
+      <CustomizedDialog
+        open={openDialog}
+        setOpen={setOpenDialog}
+        title="Login to continue"
+        body={<LoginDialogContent open={openDialog} setOpen={setOpenDialog} />}
+      />
       <Box
         p={2}
+        height={height}
         display={"flex"}
         flexDirection={"column"}
         justifyContent={"start"}
@@ -111,7 +160,15 @@ export default function ProCard(props: Props) {
             </Box>
           </Box>
           <Box>
-            <IconButton onClick={() => setLiked(!isLiked)}>
+            <IconButton
+              onClick={() => {
+                if (isAuth) {
+                  like();
+                } else {
+                  setOpenDialog(true);
+                }
+              }}
+            >
               {isLiked ? (
                 <Favorite sx={{ color: "red" }} />
               ) : (
@@ -120,17 +177,86 @@ export default function ProCard(props: Props) {
             </IconButton>
           </Box>
         </Box>
-        <Box p={deviceType === "pc" ? 2 : deviceType === "tablet" ? 1 : 0.5} />
-        <Typography gutterBottom variant="body2" >
-          {`${data?.bio?.about}`?.substring(0, deviceType === "pc" ? 200 : deviceType === "tablet" ? 150 : 100)}
-        </Typography>
-        <Box display={"flex"} flexDirection={"row"}>
-          {data?.skills?.map((val: any) => (
-            <Chip
-              sx={{ mr: 1, textTransform: "capitalize" }}
-              label={val?.name}
-            />
-          ))}
+        {/* <Box p={deviceType === "pc" ? 2 : deviceType === "tablet" ? 1 : 0.5} /> */}
+
+        <Box
+          flex={1}
+          display={"flex"}
+          flexDirection={"column"}
+          justifyContent={"stretch"}
+          alignItems={"start"}
+          mt={deviceType === "pc" ? 2 : deviceType === "tablet" ? 1 : 0.5}
+        >
+          <Typography gutterBottom variant="body2">
+            {`${data?.bio?.about}`?.substring(
+              0,
+              deviceType === "pc" ? 186 : deviceType === "tablet" ? 150 : 100
+            )}
+          </Typography>
+          <Box display={"flex"} flexDirection={"row"}>
+            {data?.skills?.map((val: any) => (
+              <Chip
+                sx={{ mr: 1, textTransform: "capitalize" }}
+                label={val?.name}
+              />
+            ))}
+          </Box>
+        </Box>
+
+        <Box
+          mt={2}
+          display={"flex"}
+          flexDirection={"row"}
+          justifyContent={"start"}
+          alignItems={"center"}
+        >
+          <Button
+            variant="outlined"
+            sx={{
+              borderColor: theme.palette.primary.main,
+              color: theme.palette.primary.main,
+              padding: "12px",
+              width: 120,
+              height: 40,
+              borderRadius: "32px",
+              textTransform: "capitalize",
+              "&:hover": {
+                background: "#131022",
+                color: "white",
+                border: "none",
+              },
+            }}
+            onClick={() => {
+              if (isAuth && location.pathname.startsWith("/dashboard")) {
+                navigate("/dashboard/professionals/" + data?.id, {
+                  state: { user: data },
+                });
+              } else {
+                navigate("/professionals/" + data?.id, {
+                  state: { user: data },
+                });
+              }
+            }}
+          >
+            See more
+          </Button>
+          <RoundedButton
+            sx={{
+              bgcolor: theme.palette.primary.main,
+              color: "white",
+              width: 120,
+              height: 40,
+              ml: 2,
+            }}
+            onClick={() => {
+              if (!isAuth) {
+                //Prompt to login
+                setOpenDialog(true);
+              }
+            }}
+          >
+            Connect
+          </RoundedButton>
         </Box>
       </Box>
     </HoverCard>

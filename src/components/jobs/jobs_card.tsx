@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   IconButton,
+  Skeleton,
   Typography,
   useMediaQuery,
   useTheme,
@@ -13,9 +14,11 @@ import RoundedButton from "../button/round_button";
 
 import formatDistance from "date-fns/formatDistance";
 import { LocationOnOutlined } from "@mui/icons-material";
+import { useAppSelector } from "../../utils/hooks/apphook";
 
 interface Props {
   item: any;
+  isLoading: boolean;
 }
 
 interface DateOptions {
@@ -24,13 +27,16 @@ interface DateOptions {
 }
 
 export default function JobCard(props: Props) {
-  let { item } = props;
+  let { item, isLoading } = props;
   const navigate = useNavigate();
   const [deviceType, setDeviceType] = React.useState("mobile");
 
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.only("xs"));
   const tablet = useMediaQuery(theme.breakpoints.only("sm"));
+
+  const profile = useAppSelector((state) => state.auth.profile);
+  const isAuth = useAppSelector((state) => state.auth.isAuth);
 
   React.useEffect(() => {
     if (mobile) {
@@ -54,13 +60,14 @@ export default function JobCard(props: Props) {
       borderRadius={6}
       border={"0.1px solid"}
       padding={deviceType === "pc" ? 3 : 1.5}
-      height={300}
+      height={310}
       width={"100%"}
       display={"flex"}
       flexDirection={"column"}
       justifyContent={"start"}
     >
-      <Typography
+      {
+        isLoading ? <Skeleton animation="wave" height={10} width={"75%"} /> : <Typography
         fontWeight={500}
         textTransform={"capitalize"}
         fontSize="1.2rem"
@@ -68,6 +75,7 @@ export default function JobCard(props: Props) {
       >
         {`${item?.jobTitle} (${item?.workplaceType ?? "Remote"})`}
       </Typography>
+      }
       <Box
         display={"flex"}
         flexDirection={"row"}
@@ -78,7 +86,10 @@ export default function JobCard(props: Props) {
         <IconButton onClick={() => navigate("")}>
           <Avatar
             alt="Remy Sharp"
-            sx={{ width: 32, height: 32 }}
+            sx={{
+              width: deviceType === "pc" ? 50 : 36,
+              height: deviceType === "pc" ? 50 : 36,
+            }}
             src={item?.recruiter?.photo}
           />
         </IconButton>
@@ -136,7 +147,9 @@ export default function JobCard(props: Props) {
           </Typography>
         </Box>
         <Box>
-          <Typography>{`${item?.applicants?.length} ${item?.applicants?.length > 1 ?"applicants":"applicant"} `}</Typography>
+          <Typography>{`${item?.applicants?.length} ${
+            item?.applicants?.length > 1 ? "applicants" : "applicant"
+          } `}</Typography>
         </Box>
       </Box>
       <Box
@@ -162,20 +175,30 @@ export default function JobCard(props: Props) {
               border: "none",
             },
           }}
+          onClick={() =>
+            navigate("/jobs/" + item?.id, { state: { data: item } })
+          }
         >
           See more
         </Button>
-        <RoundedButton
-          sx={{
-            bgcolor: theme.palette.primary.main,
-            color: "white",
-            width: 120,
-            height: 40,
-            ml: 2,
-          }}
-        >
-          Apply
-        </RoundedButton>
+        {profile?.accountType !== "recruiter" && (
+          <RoundedButton
+            sx={{
+              bgcolor: theme.palette.primary.main,
+              color: "white",
+              width: 120,
+              height: 40,
+              ml: 2,
+            }}
+            onClick={() => {
+              if (!isAuth) {
+               navigate("/login")
+              }
+           }}
+          >
+            Apply
+          </RoundedButton>
+        )}
       </Box>
     </Box>
   );

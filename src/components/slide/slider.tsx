@@ -3,11 +3,11 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
 import { cards } from "../../utils/data/data";
 import CategoryCard from "../category/category_card";
 import theme from "../../assets/theme/Theme";
 import { Typography, useMediaQuery } from "@mui/material";
+import CustomContainer from "../container";
 
 const Slide = () => {
   const [deviceType, setDeviceType] = React.useState("mobile");
@@ -26,7 +26,8 @@ const Slide = () => {
     } else {
       setDeviceType("pc");
     }
-  }, []);
+  }, [mobile, tablet, tabletBig]);
+  
   var settings = {
     dots: true,
     infinite: true,
@@ -48,8 +49,8 @@ const Slide = () => {
       paddingY={deviceType === "pc" ? 18 : deviceType === "tablet" ? 14 : 10}
       bgcolor={"white"}
     >
-      <Container>
-      <Typography gutterBottom fontWeight={600} variant="h4">
+      <CustomContainer>
+        <Typography gutterBottom fontWeight={600} variant="h4">
           Popular Services
         </Typography>
         <Slider {...settings} className="innerSlide">
@@ -57,7 +58,7 @@ const Slide = () => {
             <CategoryCard key={item.id} item={item} />
           ))}
         </Slider>
-      </Container>
+      </CustomContainer>
     </Box>
   );
 };
