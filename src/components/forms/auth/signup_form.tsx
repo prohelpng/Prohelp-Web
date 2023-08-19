@@ -27,7 +27,7 @@ import { useAppDispatch } from "../../../utils/hooks/apphook";
 import { setLoading } from "../../../redux/reducers/loader";
 import APIService from "../../../service";
 import { useNavigate } from "react-router-dom";
-import  { toast } from 'react-hot-toast';
+import { toast } from "react-hot-toast";
 
 interface RegState {
   emailAddress: string;
@@ -37,6 +37,7 @@ interface RegState {
   password: string;
   phone: string;
   gender: string;
+  profession?: string;
 }
 
 interface Props {
@@ -63,7 +64,7 @@ export default function SignupForm(props: Props) {
     } else {
       setDeviceType("pc");
     }
-  }, []);
+  }, [mobile, tablet]);
 
   const sex = [
     {
@@ -76,6 +77,21 @@ export default function SignupForm(props: Props) {
     },
   ];
 
+  const professions = [
+    {
+      label: "Catering",
+      value: "catering",
+    },
+    {
+      label: "Lawyer",
+      value: "lawyer",
+    },
+    {
+      label: "Software Developer",
+      value: "software developer",
+    },
+  ];
+
   const initValues: RegState = {
     emailAddress: "",
     firstname: "",
@@ -84,6 +100,7 @@ export default function SignupForm(props: Props) {
     middlename: "",
     phone: "",
     gender: "",
+    profession: "",
   };
 
   // const registerSchema = Yup.object().shape({
@@ -114,11 +131,13 @@ export default function SignupForm(props: Props) {
           lastname: values.lastname,
           middlename: values.middlename,
           accountType: accountType,
+          profession: values.profession ?? "",
         });
 
         // Save email in l storage
         localStorage.setItem("auth-email", values.emailAddress);
         console.log("SERVER RESPO:: ", response);
+
         dispatch(setLoading(false));
         navigate("/verify-otp");
       } catch (err: any) {
@@ -239,26 +258,86 @@ export default function SignupForm(props: Props) {
           </Grid>
         </Box>
 
-        <Box py={1}>
-          <TextField
-            fullWidth
-            autoComplete="current-password"
-            type={showPassword ? "text" : "password"}
-            label="Password"
-            {...getFieldProps("password")}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={handleShowPassword} edge="end">
-                    {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            error={Boolean(touched.password && errors.password)}
-            helperText={touched.password && errors.password}
-          />
-        </Box>
+        {accountType === "recruiter" ? (
+          <Box py={1}>
+            <TextField
+              fullWidth
+              autoComplete="current-password"
+              type={showPassword ? "text" : "password"}
+              label="Password"
+              {...getFieldProps("password")}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleShowPassword} edge="end">
+                      {showPassword ? (
+                        <VisibilityIcon />
+                      ) : (
+                        <VisibilityOffIcon />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              error={Boolean(touched.password && errors.password)}
+              helperText={touched.password && errors.password}
+            />
+          </Box>
+        ) : (
+          <Box>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={12} md={6}>
+                <FormControl fullWidth>
+                  <InputLabel
+                    htmlFor="profession"
+                    sx={{ bgcolor: "background.paper" }}
+                  >
+                    <span>Select your Profession</span>
+                  </InputLabel>
+                  <NativeSelect
+                    input={
+                      <OutlinedInput
+                        {...getFieldProps("profession")}
+                        id="profession"
+                      />
+                    }
+                    id="profession"
+                  >
+                    {professions.map((prof) => (
+                      <option key={prof.value} value={prof.value}>
+                        {prof.label}
+                      </option>
+                    ))}
+                  </NativeSelect>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={12} md={6}>
+                <TextField
+                  fullWidth
+                  autoComplete="current-password"
+                  type={showPassword ? "text" : "password"}
+                  label="Password"
+                  {...getFieldProps("password")}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton onClick={handleShowPassword} edge="end">
+                          {showPassword ? (
+                            <VisibilityIcon />
+                          ) : (
+                            <VisibilityOffIcon />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  error={Boolean(touched.password && errors.password)}
+                  helperText={touched.password && errors.password}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+        )}
 
         <Box
           marginLeft={-1}

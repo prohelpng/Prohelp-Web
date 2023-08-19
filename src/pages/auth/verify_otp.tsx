@@ -16,7 +16,7 @@ import { setLoading } from "../../redux/reducers/loader";
 import OtpInput from "react-otp-input";
 import APIService from "../../service";
 import { toast } from "react-hot-toast";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import brand from "../../assets/images/longo_dark.svg";
 import { DividerLongText } from "../../components/divider/text_divider";
 
@@ -47,7 +47,7 @@ export default function VerifyOTP(): React.JSX.Element {
     } else {
       setDeviceType("pc");
     }
-  }, []);
+  }, [mobile, tablet]);
 
   const formik = useFormik({
     initialValues: initValues,
@@ -64,11 +64,22 @@ export default function VerifyOTP(): React.JSX.Element {
         );
 
         console.log("VERIFY RESPO:: ", response);
-        localStorage.setItem("x-toks", response?.data?.token);
+        localStorage.setItem("x-toks", response?.token);
+
+        //Now update profile. Set has profile to true here
+        await APIService.update(
+          "/updateuser",
+          localStorage.getItem("auth-email"),
+          { hasProfile: true }
+        );
+
+        // console.log("PROFILE UPDATE RESPONSE:: ", profileResponse);
+
         dispatch(setLoading(false));
         toast.success(response.message ?? "Success");
         navigate("/dashboard");
       } catch (err: any) {
+        dispatch(setLoading(false));
         console.log(err?.message || "Check internet");
         toast.error(err?.message || "Check your internet connection");
       }
@@ -88,7 +99,7 @@ export default function VerifyOTP(): React.JSX.Element {
     try {
       dispatch(setLoading(true));
       const response = await APIService.fetcher(
-        `/resendOTP?code=${values.code}&email=${localStorage.getItem(
+        `/resendOTP?type=register&email=${localStorage.getItem(
           "auth-email"
         )}`
       );
@@ -97,6 +108,7 @@ export default function VerifyOTP(): React.JSX.Element {
       dispatch(setLoading(false));
       toast.success(response.message ?? "Success");
     } catch (err: any) {
+      dispatch(setLoading(false));
       console.log(err?.message || "Check internet");
       toast.error(err?.message || "Check your internet connection");
     }

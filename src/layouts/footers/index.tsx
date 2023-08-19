@@ -62,7 +62,7 @@ export default function Footer() {
         else {
             setDeviceType("pc")
         }
-    }, [])
+    }, [mobile, tablet])
 
     return <Box 
     bgcolor="#131022" 
@@ -86,7 +86,7 @@ export default function Footer() {
                 <Grid item xs={6} sm={3} md={3}> <CustomLink to="" style={{color: "white", textDecoration: "none"}} > FAQ's </CustomLink> </Grid>
                 <Grid item xs={6} sm={3} md={3}> <NavLink to="" style={{color: "white", textDecoration: "none"}} > Contact us </NavLink> </Grid>
                 <Grid item xs={6} sm={3} md={3}> <NavLink to="" style={{color: "white", textDecoration: "none"}} > Terms of Use </NavLink> </Grid>
-                <Grid item xs={6} sm={3} md={3}> <NavLink to="" style={{color: "white", textDecoration: "none"}} > Privacy Policy </NavLink> </Grid>
+                <Grid item xs={6} sm={3} md={3}> <NavLink to="/privacy-policy" style={{color: "white", textDecoration: "none"}} > Privacy Policy </NavLink> </Grid>
             </Grid>
         </Box>
         <Box paddingY={3}>

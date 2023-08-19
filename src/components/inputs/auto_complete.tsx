@@ -116,6 +116,10 @@ export default function GoogleMaps() {
             fullWidth
             variant="standard"
             size="small"
+            InputProps={{
+              ...params.InputProps,
+              disableUnderline: true
+            }}
             placeholder={
               searchTarget === "jobs"
                 ? "Search for any service  "

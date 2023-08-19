@@ -14,7 +14,6 @@ import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import { useNavigate } from "react-router-dom";
 import { Search } from "@mui/icons-material";
 
-
 export default function AutocompleteMini() {
   const [value, setValue] = React.useState(null);
   const [inputValue, setInputValue] = React.useState("");
@@ -47,7 +46,6 @@ export default function AutocompleteMini() {
   };
 
   React.useEffect(() => {
-
     if (inputValue === "") {
       if (searchTarget === "jobs") {
         setOptions(value ? jobs?.docs : []);
@@ -63,12 +61,12 @@ export default function AutocompleteMini() {
     } else {
       proFetcher(inputValue);
     }
-
   }, [value, inputValue, jobs?.docs, searchTarget, professionals?.docs]);
 
   return (
     <Box
       pl={1.5}
+      minWidth={320}
       border="1px solid"
       borderColor="black"
       borderRadius={32}
@@ -129,10 +127,10 @@ export default function AutocompleteMini() {
               color: "white",
             }}
             InputProps={{
-                startAdornment: (
-                    <Search fontSize="small" />
-                ),
-              }}
+              ...params.InputProps,
+              startAdornment: <Search fontSize="small" />,
+              disableUnderline: true,
+            }}
           />
         )}
         renderOption={(props, option: any) => {
@@ -143,6 +141,11 @@ export default function AutocompleteMini() {
                 console.log("CGTH");
                 if (searchTarget === "jobs") {
                   navigate("/jobs/" + option?.id, { state: { data: option } });
+                }
+                else {
+                  navigate("/professionals/" + option?.id, {
+                    state: { user: option },
+                  });
                 }
               }}
             >

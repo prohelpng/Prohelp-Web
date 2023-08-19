@@ -67,9 +67,9 @@ export default function ProCard(props: Props) {
     }
   }, [mobile, tablet]);
 
-  React.useEffect(() => {
-    const checkLiked = () => {};
-  }, []);
+  // React.useEffect(() => {
+  //   const checkLiked = () => {};
+  // }, []);
 
   const like = async () => {
     try {
@@ -93,7 +93,7 @@ export default function ProCard(props: Props) {
   };
 
   return (
-    <HoverCard sx={{ my: 2, height: height }}>
+    <HoverCard sx={{ my: 2, height: height, borderRadius: 4 }}>
       <CustomizedDialog
         open={openDialog}
         setOpen={setOpenDialog}
@@ -106,8 +106,21 @@ export default function ProCard(props: Props) {
         display={"flex"}
         flexDirection={"column"}
         justifyContent={"start"}
-        alignItems={"stretch"}
+        alignItems={"center"}
+        position={"relative"}
       >
+        <IconButton
+          onClick={() => {
+            if (isAuth) {
+              like();
+            } else {
+              setOpenDialog(true);
+            }
+          }}
+          sx={{ right: 6, top: 4, position: "absolute" }}
+        >
+          {isLiked ? <Favorite sx={{ color: "red" }} /> : <FavoriteOutlined />}
+        </IconButton>
         <Box
           display={"flex"}
           flexDirection={"row"}
@@ -117,15 +130,15 @@ export default function ProCard(props: Props) {
           <Box
             width={"100%"}
             display={"flex"}
-            flexDirection={"row"}
+            flexDirection={"column"}
             justifyContent={"start"}
-            alignItems={"start"}
+            alignItems={"center"}
           >
             <Avatar
               alt="Remy Sharp"
               sx={{
-                width: deviceType === "pc" ? 70 : 48,
-                height: deviceType === "pc" ? 70 : 48,
+                width: deviceType === "pc" ? 128 : 48,
+                height: deviceType === "pc" ? 128 : 48,
               }}
               src={data?.bio?.image}
             />
@@ -133,15 +146,17 @@ export default function ProCard(props: Props) {
               mr={deviceType === "pc" ? 4 : deviceType === "tablet" ? 2 : 1}
             />
             <Box
+              py={1}
               display={"flex"}
               flexDirection={"column"}
               justifyContent={"start"}
-              alignItems={"start"}
+              alignItems={"center"}
+              textAlign={"center"}
             >
               <Typography
                 lineHeight={1.12}
-                variant="body1"
-                fontWeight={600}
+                variant={deviceType === "pc" ? "h6" : "body1"}
+                fontWeight={700}
                 textTransform={"capitalize"}
                 color={theme.palette.primary.main}
               >
@@ -159,23 +174,9 @@ export default function ProCard(props: Props) {
               </Typography>
             </Box>
           </Box>
-          <Box>
-            <IconButton
-              onClick={() => {
-                if (isAuth) {
-                  like();
-                } else {
-                  setOpenDialog(true);
-                }
-              }}
-            >
-              {isLiked ? (
-                <Favorite sx={{ color: "red" }} />
-              ) : (
-                <FavoriteOutlined />
-              )}
-            </IconButton>
-          </Box>
+          {/* <Box>
+           
+          </Box> */}
         </Box>
         {/* <Box p={deviceType === "pc" ? 2 : deviceType === "tablet" ? 1 : 0.5} /> */}
 
@@ -187,12 +188,12 @@ export default function ProCard(props: Props) {
           alignItems={"start"}
           mt={deviceType === "pc" ? 2 : deviceType === "tablet" ? 1 : 0.5}
         >
-          <Typography gutterBottom variant="body2">
+          {/* <Typography gutterBottom variant="body2">
             {`${data?.bio?.about}`?.substring(
               0,
               deviceType === "pc" ? 186 : deviceType === "tablet" ? 150 : 100
             )}
-          </Typography>
+          </Typography> */}
           <Box display={"flex"} flexDirection={"row"}>
             {data?.skills?.map((val: any) => (
               <Chip

@@ -49,6 +49,20 @@ const theme = createTheme({
         },
       },
     },
+    MuiAutocomplete: {
+      styleOverrides: {
+        inputRoot: {
+          border: 'none'
+        }
+      }
+    },
+    MuiInput: {
+      styleOverrides: {
+        root: {
+          disableUnderline: true
+        }
+      }
+    }
   },
 });
 

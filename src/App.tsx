@@ -39,6 +39,8 @@ import useSavedPros from "./utils/hooks/use_saved_pros";
 import Account from "./pages/dashboard/account";
 import JobInfo from "./pages/jobs/jobInfo";
 import Category from "./pages/category";
+import PrivacyPolicy from "./pages/legal/privacy_policy";
+import TermsOfService from "./pages/legal/terms_of_service";
 
 function App() {
   const [deviceType, setDeviceType] = React.useState("mobile");
@@ -76,7 +78,9 @@ function App() {
       location.pathname.includes("/signup") ||
       location.pathname.includes("/login") ||
       location.pathname.includes("/verify-otp") ||
-      location.pathname.includes("/dashboard")
+      location.pathname.includes("/dashboard") || 
+      location.pathname.includes("/privacy-policy") ||
+      location.pathname.includes("/terms-of-use") 
     ) {
       setHidden("hide");
       setShowMobileAuthFooter(false);
@@ -89,6 +93,10 @@ function App() {
       setShowMobileAuthFooter(true);
     }
   }, [deviceType, location]);
+
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   const childrenElement: JSX.Element = <Box bgcolor={"red"}></Box>;
 
@@ -158,11 +166,13 @@ function App() {
         <Route path="/explore" element={<ExplorePro />} />
         <Route path="/jobs/:id" element={<JobInfo />} />
         <Route path="/category/:id" element={<Category />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-of-use" element={<TermsOfService />} />
         <Route
           path="/professionals/:id"
           element={
-            <Box py={5} >
-              <Toolbar/>
+            <Box py={5}>
+              <Toolbar />
               <Container>
                 <UserProfile />
               </Container>

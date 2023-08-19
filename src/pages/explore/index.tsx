@@ -8,18 +8,18 @@ import theme from "../../assets/theme/Theme";
 export default function ExplorePro(): React.JSX.Element {
   const professionals = useAppSelector((state) => state.users.professionals);
   const [deviceType, setDeviceType] = React.useState("mobile");
-  const [isFixed, setFixed] = React.useState(false);
+  // const [isFixed, setFixed] = React.useState(false);
 
   const mobile = useMediaQuery(theme.breakpoints.only("xs"));
   const tablet = useMediaQuery(theme.breakpoints.only("sm"));
 
-  const scrollHandler = () => {
-    if (window.scrollY >= 500) {
-      setFixed(true);
-    } else {
-      setFixed(false);
-    }
-  };
+  // const scrollHandler = () => {
+  //   if (window.scrollY >= 500) {
+  //     setFixed(true);
+  //   } else {
+  //     setFixed(false);
+  //   }
+  // };
 
   React.useEffect(() => {
     if (mobile) {
@@ -36,11 +36,11 @@ export default function ExplorePro(): React.JSX.Element {
       <ExploreHeader />
       <Box
         paddingY={deviceType === "pc" ? 16 : deviceType === "tablet" ? 12 : 8}
-        bgcolor={"#efefef"}
+        // bgcolor={"#efefef"}
       >
         <Container>
           <Grid container spacing={2}>
-            <Grid flex={1} flexGrow={1} item xs={12} sm={12} md={7} lg={8}>
+            <Grid flex={1} flexGrow={1} item xs={12} sm={12} md={12} lg={12}>
               <Box>
                 <Typography
                   fontWeight={600}
@@ -51,22 +51,14 @@ export default function ExplorePro(): React.JSX.Element {
                 <Grid container spacing={2}>
                   {professionals &&
                     professionals?.map((item: any) => (
-                      <Grid item xs={12} sm={12} md={6}>
-                        <ProCard data={item} height={320} />
+                      <Grid item xs={12} sm={12} md={6} lg={3}> 
+                        <ProCard data={item} height={356} />
                       </Grid>
                     ))}
                 </Grid>
               </Box>
             </Grid>
-            <Grid
-              item
-              md={5}
-              lg={4}
-              display={{ xs: "none", sm: "none", md: "flex" }}
-            >
-              {/* <Box flex={1} height={200} bgcolor={"red"}></Box>
-              <Box width={"10px"} height={200} bgcolor={"blue"}></Box> */}
-            </Grid>
+            
           </Grid>
         </Container>
       </Box>

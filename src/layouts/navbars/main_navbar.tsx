@@ -15,6 +15,7 @@ import { SearchFieldTop } from "../../components/inputs/search_field";
 import { Avatar, Divider, IconButton } from "@mui/material";
 import { useAppSelector } from "../../utils/hooks/apphook";
 import CustomContainer from "../../components/container";
+import AutocompleteMini from "../../components/inputs/auto_complete_mini";
 
 export interface Props {
   window?: () => Window;
@@ -153,7 +154,7 @@ export default function MainNavbar(props: Props) {
                       <DefaultLogo scrolled={scrolled} />
                     )}
                   </Box>
-                  {show && deviceType === "pc" && <SearchFieldTop />}
+                  {show && deviceType === "pc" && <AutocompleteMini />}
                   <Box color={navColor}>
                     <CustomLink
                       to={"/"}
@@ -362,6 +363,7 @@ export default function MainNavbar(props: Props) {
                   <CustomLink
                     to={"/category/graphics&design"}
                     sx={{ color: scrolled ? "black" : "white" }}
+                    // onClick={() => navigate("/category/graphics&design", {state: {title: "Branding & Design"}})}
                   >
                     Branding & Design
                   </CustomLink>
