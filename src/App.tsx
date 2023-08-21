@@ -41,6 +41,12 @@ import JobInfo from "./pages/jobs/jobInfo";
 import Category from "./pages/category";
 import PrivacyPolicy from "./pages/legal/privacy_policy";
 import TermsOfService from "./pages/legal/terms_of_service";
+import useProfessions from "./utils/hooks/use_profession";
+import { setProfessions } from "./redux/reducers/profession";
+import useLegal from "./utils/hooks/use_legal";
+import { setLegal } from "./redux/reducers/legal";
+import ContactUs from "./pages/contact";
+import FAQs from "./pages/faq";
 
 function App() {
   const [deviceType, setDeviceType] = React.useState("mobile");
@@ -58,9 +64,13 @@ function App() {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuth);
   const { data } = useProfile();
   const { data: jobData } = useJobs();
+  const { data: legalData } = useLegal();
+  console.log("LEGSK S", legalData);
+
   const { data: proData } = useProfessionals();
   const { data: savedProsData } = useSavedPros();
   const { data: postedJobData } = usePostedJobs();
+  const { data: professionData } = useProfessions();
   const { data: conversationsData } = useConversations();
 
   React.useEffect(() => {
@@ -78,9 +88,9 @@ function App() {
       location.pathname.includes("/signup") ||
       location.pathname.includes("/login") ||
       location.pathname.includes("/verify-otp") ||
-      location.pathname.includes("/dashboard") || 
+      location.pathname.includes("/dashboard") ||
       location.pathname.includes("/privacy-policy") ||
-      location.pathname.includes("/terms-of-use") 
+      location.pathname.includes("/terms-of-use")
     ) {
       setHidden("hide");
       setShowMobileAuthFooter(false);
@@ -125,13 +135,21 @@ function App() {
     if (conversationsData) {
       dispatch(setConversations(conversationsData?.data));
     }
+    if (professionData) {
+      dispatch(setProfessions(professionData?.docs));
+    }
+    if (legalData) {
+      dispatch(setLegal(legalData?.docs));
+    }
   }, [
     conversationsData,
     data,
     dispatch,
     jobData,
+    legalData,
     postedJobData,
     proData,
+    professionData,
     savedProsData,
   ]);
 
@@ -166,8 +184,10 @@ function App() {
         <Route path="/explore" element={<ExplorePro />} />
         <Route path="/jobs/:id" element={<JobInfo />} />
         <Route path="/category/:id" element={<Category />} />
+        <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-use" element={<TermsOfService />} />
+        <Route path="/faqs" element={<FAQs />} />
         <Route
           path="/professionals/:id"
           element={

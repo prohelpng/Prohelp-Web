@@ -3,7 +3,9 @@ import loaderReducer from "./reducers/loader";
 import authReducer from "./reducers/auth";
 import usersReducer from "./reducers/users";
 import jobReducer from "./reducers/jobs";
-import messageReducer from "./reducers/messages"
+import messageReducer from "./reducers/messages";
+import legalReducer from "./reducers/legal"
+import professionReducer from "./reducers/profession";
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +13,9 @@ export const store = configureStore({
     auth: authReducer,
     users: usersReducer,
     jobs: jobReducer,
-    messages: messageReducer
+    legal: legalReducer,
+    messages: messageReducer,
+    professions: professionReducer,
   },
 });
 

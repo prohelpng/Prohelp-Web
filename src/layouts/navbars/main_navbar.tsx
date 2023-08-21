@@ -12,7 +12,7 @@ import RoundedButton from "../../components/button/round_button";
 import useMediaQuery from "@mui/material/useMediaQuery/useMediaQuery";
 import RoundedButtonOutlined from "../../components/button/rounded_button_outlined";
 import { SearchFieldTop } from "../../components/inputs/search_field";
-import { Avatar, Divider, IconButton } from "@mui/material";
+import { Avatar, Button, Divider, IconButton } from "@mui/material";
 import { useAppSelector } from "../../utils/hooks/apphook";
 import CustomContainer from "../../components/container";
 import AutocompleteMini from "../../components/inputs/auto_complete_mini";
@@ -69,6 +69,16 @@ export const CustomLink = styled(NavLink)<CustomLinkProps>(({ theme }) => ({
   },
 }));
 
+export const CategoryLink = styled(Button)<CustomLinkProps>(({ theme }) => ({
+  color: "white",
+  padding: "8px",
+  textDecoration: "none",
+  margin: "10px",
+  "&:hover": {
+    color: theme.palette.primary.main,
+  },
+}));
+
 export default function MainNavbar(props: Props) {
   const [deviceType, setDeviceType] = React.useState("mobile");
   const [scrolled, setScrolled] = React.useState(false);
@@ -90,6 +100,7 @@ export default function MainNavbar(props: Props) {
 
   const profile = useAppSelector((state) => state.auth.profile);
   const isAuth = useAppSelector((state) => state.auth.isAuth);
+  const professions = useAppSelector((state) => state.professions.professions);
 
   const mobile = useMediaQuery(theme.breakpoints.only("xs"));
   const tablet = useMediaQuery(theme.breakpoints.only("sm"));
@@ -110,12 +121,14 @@ export default function MainNavbar(props: Props) {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
+
   }, [mobile, tablet, tabletBig]);
 
   React.useEffect(() => {
     if (
       location.pathname.startsWith("/explore") ||
-      location.pathname.startsWith("/job")
+      location.pathname.startsWith("/job") ||
+      location.pathname.startsWith("/contact")
     ) {
       setNavColor("black");
     } else {
@@ -148,6 +161,7 @@ export default function MainNavbar(props: Props) {
                     location.pathname.startsWith("/jobs") ||
                     location.pathname.startsWith("/professionals") ||
                     location.pathname.startsWith("/category") ||
+                    location.pathname.startsWith("/contact") ||
                     scrolled ? (
                       <ScrolledLogo scrolled={scrolled} />
                     ) : (
@@ -164,6 +178,7 @@ export default function MainNavbar(props: Props) {
                           location.pathname.startsWith("/jobs") ||
                           location.pathname.startsWith("/professionals") ||
                           location.pathname.startsWith("/category") ||
+                          location.pathname.startsWith("/contact") ||
                           scrolled
                             ? "black"
                             : "white",
@@ -185,6 +200,7 @@ export default function MainNavbar(props: Props) {
                           location.pathname.startsWith("/jobs") ||
                           location.pathname.startsWith("/professionals") ||
                           location.pathname.startsWith("/category") ||
+                          location.pathname.startsWith("/contact") ||
                           scrolled
                             ? "black"
                             : "white",
@@ -205,6 +221,7 @@ export default function MainNavbar(props: Props) {
                           location.pathname.startsWith("/jobs") ||
                           location.pathname.startsWith("/professionals") ||
                           location.pathname.startsWith("/category") ||
+                          location.pathname.startsWith("/contact") ||
                           scrolled
                             ? "black"
                             : "white",
@@ -220,6 +237,7 @@ export default function MainNavbar(props: Props) {
                           location.pathname.startsWith("/jobs") ||
                           location.pathname.startsWith("/professionals") ||
                           location.pathname.startsWith("/category") ||
+                          location.pathname.startsWith("/contact") ||
                           scrolled
                             ? "black"
                             : "white",
@@ -247,6 +265,7 @@ export default function MainNavbar(props: Props) {
                             location.pathname.startsWith("/jobs") ||
                             location.pathname.startsWith("/professionals") ||
                             location.pathname.startsWith("/category") ||
+                            location.pathname.startsWith("/contact") ||
                             scrolled
                               ? "white"
                               : theme.palette.primary.main,
@@ -255,6 +274,7 @@ export default function MainNavbar(props: Props) {
                             location.pathname.startsWith("/jobs") ||
                             location.pathname.startsWith("/professionals") ||
                             location.pathname.startsWith("/category") ||
+                            location.pathname.startsWith("/contact") ||
                             scrolled
                               ? theme.palette.primary.main
                               : "white",
@@ -279,6 +299,7 @@ export default function MainNavbar(props: Props) {
                   location.pathname.startsWith("/jobs") ||
                   location.pathname.startsWith("/professionals") ||
                   location.pathname.startsWith("/category") ||
+                  location.pathname.startsWith("/contact") ||
                   scrolled ? (
                     <ScrolledLogo scrolled={scrolled} />
                   ) : (
@@ -287,6 +308,7 @@ export default function MainNavbar(props: Props) {
                   <Box sx={{ flexGrow: 1 }} />
                   {location.pathname.startsWith("/professionals") ||
                   location.pathname.startsWith("/category") ||
+                  location.pathname.startsWith("/contact") ||
                   scrolled ? (
                     <>
                       <CustomLink
@@ -360,47 +382,24 @@ export default function MainNavbar(props: Props) {
                   justifyContent={"space-between"}
                   alignItems={"center"}
                 >
-                  <CustomLink
-                    to={"/category/graphics&design"}
-                    sx={{ color: scrolled ? "black" : "white" }}
-                    // onClick={() => navigate("/category/graphics&design", {state: {title: "Branding & Design"}})}
-                  >
-                    Branding & Design
-                  </CustomLink>
-                  <CustomLink
-                    to={"/category/programming&tech"}
-                    sx={{ color: scrolled ? "black" : "white" }}
-                  >
-                    Programming & Tech
-                  </CustomLink>
-                  <CustomLink
-                    to={""}
-                    sx={{ color: scrolled ? "black" : "white" }}
-                  >
-                    Catering Services
-                  </CustomLink>
-                  <CustomLink
-                    to={""}
-                    sx={{ color: scrolled ? "black" : "white" }}
-                  >
-                    Logistics & Travel
-                  </CustomLink>
-                  <CustomLink
-                    to={""}
-                    sx={{ color: scrolled ? "black" : "white" }}
-                  >
-                    Beauty & Fashion
-                  </CustomLink>
-                  <CustomLink
-                    to={""}
-                    sx={{ color: scrolled ? "black" : "white" }}
-                  >
-                    General Services
-                  </CustomLink>
+                  {(professions ?? [])?.map((item: any, index: number) => (
+                    <CategoryLink
+                      onClick={() =>
+                        navigate(
+                          "/category/" +
+                            item?.name?.replaceAll(" ", "")?.toLowerCase(),
+                          { state: { data: item } }
+                        )
+                      }
+                      sx={{ color: scrolled ? "black" : "white" }}
+                    >
+                      {item?.name}
+                    </CategoryLink>
+                  ))}
                 </Box>
               )}
               {/* Same but for 10inch tablets */}
-              {show && deviceType === "tabletBig" && (
+              {/* {show && deviceType === "tabletBig" && (
                 <Box
                   display={"flex"}
                   flexDirection={"row"}
@@ -438,7 +437,7 @@ export default function MainNavbar(props: Props) {
                     General Services
                   </CustomLink>
                 </Box>
-              )}
+              )} */}
             </CustomContainer>
           </Toolbar>
         </AppBar>

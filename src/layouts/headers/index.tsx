@@ -5,7 +5,7 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 // import image from "../../assets/images/smiling_lady.png";
-import SearchField from "../../components/inputs/search_field";
+// import SearchField from "../../components/inputs/search_field";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import banner from "../../assets/images/banner.jpg";
 import FreeSolo from "../../components/inputs/auto_complete";
@@ -25,7 +25,7 @@ export default function Header() {
     } else {
       setDeviceType("pc");
     }
-  }, []);
+  }, [mobile, tablet]);
 
   return (
     <Box
@@ -56,7 +56,7 @@ export default function Header() {
             <Grid item xs={12} sm={12} md={6}>
               <Typography
                 gutterBottom
-                fontSize={"2rem"}
+                fontSize={deviceType === "pc" ? "3.5rem" : deviceType === "tablet" ? "3.125rem" : "2.25rem"}
                 component="h1"
                 color="white"
                 textAlign={"center"}

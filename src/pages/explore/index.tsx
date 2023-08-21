@@ -52,7 +52,7 @@ export default function ExplorePro(): React.JSX.Element {
                   {professionals &&
                     professionals?.map((item: any) => (
                       <Grid item xs={12} sm={12} md={6} lg={3}> 
-                        <ProCard data={item} height={356} />
+                        <ProCard data={item} height={375} />
                       </Grid>
                     ))}
                 </Grid>

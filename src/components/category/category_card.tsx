@@ -19,7 +19,7 @@ function CategoryCard(props: Props) {
           style={{ borderRadius: 10 }}
         />
         <span className="desc">{item.desc}</span>
-        <span className="title">{item.title}</span>
+        <span className="title">{item.name}</span>
       </div>
     </Link>
   );

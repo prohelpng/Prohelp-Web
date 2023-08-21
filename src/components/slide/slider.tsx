@@ -2,16 +2,23 @@ import React from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+// import slickPrev from "react-slick";
 import Box from "@mui/material/Box";
 import { cards } from "../../utils/data/data";
 import CategoryCard from "../category/category_card";
 import theme from "../../assets/theme/Theme";
-import { Typography, useMediaQuery } from "@mui/material";
-import CustomContainer from "../container";
+import {
+  Container,
+  IconButton,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
+import { ArrowBackIosNew, ArrowForwardIos } from "@mui/icons-material";
+// import CustomContainer from "../container";
 
 const Slide = () => {
   const [deviceType, setDeviceType] = React.useState("mobile");
-
+  const customSlider: React.RefObject<Slider> = React.createRef();
   const mobile = useMediaQuery(theme.breakpoints.only("xs"));
   const tablet = useMediaQuery(theme.breakpoints.only("sm"));
   const tabletBig = useMediaQuery(theme.breakpoints.only("md"));
@@ -27,9 +34,9 @@ const Slide = () => {
       setDeviceType("pc");
     }
   }, [mobile, tablet, tabletBig]);
-  
+
   var settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     autoPlay: true,
     speed: 500,
@@ -49,16 +56,48 @@ const Slide = () => {
       paddingY={deviceType === "pc" ? 18 : deviceType === "tablet" ? 14 : 10}
       bgcolor={"white"}
     >
-      <CustomContainer>
+      <Container>
         <Typography gutterBottom fontWeight={600} variant="h4">
           Popular Services
         </Typography>
-        <Slider {...settings} className="innerSlide">
-          {cards.map((item) => (
-            <CategoryCard key={item.id} item={item} />
-          ))}
-        </Slider>
-      </CustomContainer>
+        <Box position={"relative"}>
+          <Slider {...settings} ref={customSlider}>
+            {cards.map((item) => (
+              <CategoryCard key={item.id} item={item} />
+            ))}
+          </Slider>
+          <Box
+            position={"absolute"}
+            top={144}
+            bottom={144}
+            width={"100%"}
+            display={"flex"}
+            flexDirection={"row"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+          >
+            <IconButton
+              sx={{
+                bgcolor: theme.palette.primary.main,
+                color: "white",
+              }}
+              onClick={() => customSlider?.current?.slickPrev()}
+            >
+              <ArrowBackIosNew />
+            </IconButton>
+
+            <IconButton
+              sx={{
+                bgcolor: theme.palette.primary.main,
+                color: "white",
+              }}
+              onClick={() => customSlider?.current?.slickNext()}
+            >
+              <ArrowForwardIos />
+            </IconButton>
+          </Box>
+        </Box>
+      </Container>
     </Box>
   );
 };

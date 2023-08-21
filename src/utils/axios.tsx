@@ -1,12 +1,13 @@
 import * as axios from "axios";
 
 // console.info('BASE_URL: ->', process.env.REACT_APP_BASE_URL);
+ /* "http://192.168.0.106:8080/api"    ,*/
 
 const axiosInstance = axios.default?.create({
-    baseURL: "https://my-prohelp-server.vercel.app/api", /* "http://192.168.0.106:8080/api" ,*/
-    headers: {
+  baseURL: "https://my-prohelp-server.vercel.app/api",
+  headers: {
     "Content-Type": "application/json",
-    "Authorization": "Bearer " + localStorage.getItem("x-toks")
+    Authorization: "Bearer " + localStorage.getItem("x-toks"),
   },
 });
 

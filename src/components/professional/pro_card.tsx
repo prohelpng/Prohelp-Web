@@ -7,6 +7,7 @@ import {
   Card,
   Chip,
   IconButton,
+  Rating,
   Typography,
   styled,
   useMediaQuery,
@@ -93,7 +94,10 @@ export default function ProCard(props: Props) {
   };
 
   return (
-    <HoverCard sx={{ my: 2, height: height, borderRadius: 4 }}>
+    <HoverCard
+      elevation={0.75}
+      sx={{ my: 2, height: height, borderRadius: 4, border: "0.4px solid" }}
+    >
       <CustomizedDialog
         open={openDialog}
         setOpen={setOpenDialog}
@@ -174,11 +178,7 @@ export default function ProCard(props: Props) {
               </Typography>
             </Box>
           </Box>
-          {/* <Box>
-           
-          </Box> */}
         </Box>
-        {/* <Box p={deviceType === "pc" ? 2 : deviceType === "tablet" ? 1 : 0.5} /> */}
 
         <Box
           flex={1}
@@ -186,15 +186,10 @@ export default function ProCard(props: Props) {
           flexDirection={"column"}
           justifyContent={"stretch"}
           alignItems={"start"}
-          mt={deviceType === "pc" ? 2 : deviceType === "tablet" ? 1 : 0.5}
+          // mt={deviceType === "pc" ? 1 : deviceType === "tablet" ? 1 : 0.5}
         >
-          {/* <Typography gutterBottom variant="body2">
-            {`${data?.bio?.about}`?.substring(
-              0,
-              deviceType === "pc" ? 186 : deviceType === "tablet" ? 150 : 100
-            )}
-          </Typography> */}
-          <Box display={"flex"} flexDirection={"row"}>
+          <Rating name="read-only" value={data?.rating ?? 1} readOnly />
+          <Box mt={1} display={"flex"} flexDirection={"row"}>
             {data?.skills?.map((val: any) => (
               <Chip
                 sx={{ mr: 1, textTransform: "capitalize" }}
@@ -229,13 +224,18 @@ export default function ProCard(props: Props) {
             }}
             onClick={() => {
               if (isAuth && location.pathname.startsWith("/dashboard")) {
-                navigate("/dashboard/professionals/" + data?.id, {
-                  state: { user: data },
-                });
-              } else {
                 navigate("/professionals/" + data?.id, {
                   state: { user: data },
                 });
+                // navigate("/dashboard/professionals/" + data?.id, {
+                //   state: { user: data },
+                // });
+              } else {
+                //Prompt to login
+                setOpenDialog(true);
+                // navigate("/professionals/" + data?.id, {
+                //   state: { user: data },
+                // });
               }
             }}
           >

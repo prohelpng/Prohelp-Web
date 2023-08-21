@@ -52,14 +52,29 @@ const theme = createTheme({
     MuiAutocomplete: {
       styleOverrides: {
         inputRoot: {
-          border: 'none'
-        }
-      }
+          border: "none",
+        },
+      },
     },
     MuiInput: {
       styleOverrides: {
         root: {
-          disableUnderline: true
+          disableUnderline: true,
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          boxShadow: "none",
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          boxShadow: 'none',
+          border: '0.4px solid'
         }
       }
     }

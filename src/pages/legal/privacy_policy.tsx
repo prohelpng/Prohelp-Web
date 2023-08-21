@@ -1,16 +1,14 @@
-import {
-  AppBar,
-  Box,
-  Container,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import { AppBar, Box, Container, Toolbar, Typography } from "@mui/material";
 import brand from "../../assets/images/longo_dark.svg";
 import theme from "../../assets/theme/Theme";
 import { useNavigate } from "react-router-dom";
+import parse from "html-react-parser";
+import { useAppSelector } from "../../utils/hooks/apphook";
+import React from "react";
 
 export default function PrivacyPolicy(): React.JSX.Element {
   const navigate = useNavigate();
+  const legalData = useAppSelector((state) => state.legal.legalData);
 
   return (
     <Box
@@ -44,9 +42,7 @@ export default function PrivacyPolicy(): React.JSX.Element {
         </Toolbar>
       </AppBar>
       <Box flex={1} p={2}>
-        <Container>
-          <Typography> The privacy policy goes in here ... </Typography>
-        </Container>
+        <Container>{parse(legalData[0]?.privacy)}</Container>
       </Box>
       <Box
         display={"flex"}

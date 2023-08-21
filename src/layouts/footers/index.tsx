@@ -83,9 +83,9 @@ export default function Footer() {
             justifyContent="center" 
             alignItems="center">
             <Grid container spacing={2} display="flex" flexDirection="row" justifyContent="space-around" alignItems="center" >
-                <Grid item xs={6} sm={3} md={3}> <CustomLink to="" style={{color: "white", textDecoration: "none"}} > FAQ's </CustomLink> </Grid>
-                <Grid item xs={6} sm={3} md={3}> <NavLink to="" style={{color: "white", textDecoration: "none"}} > Contact us </NavLink> </Grid>
-                <Grid item xs={6} sm={3} md={3}> <NavLink to="" style={{color: "white", textDecoration: "none"}} > Terms of Use </NavLink> </Grid>
+                <Grid item xs={6} sm={3} md={3}> <CustomLink to="/faqs" style={{color: "white", textDecoration: "none"}} > FAQ's </CustomLink> </Grid>
+                <Grid item xs={6} sm={3} md={3}> <NavLink to="/contact-us" style={{color: "white", textDecoration: "none"}} > Contact us </NavLink> </Grid>
+                <Grid item xs={6} sm={3} md={3}> <NavLink to="/terms-of-use" style={{color: "white", textDecoration: "none"}} > Terms of Use </NavLink> </Grid>
                 <Grid item xs={6} sm={3} md={3}> <NavLink to="/privacy-policy" style={{color: "white", textDecoration: "none"}} > Privacy Policy </NavLink> </Grid>
             </Grid>
         </Box>

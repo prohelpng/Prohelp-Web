@@ -8,9 +8,14 @@ import {
   import brand from "../../assets/images/longo_dark.svg";
   import theme from "../../assets/theme/Theme";
   import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../utils/hooks/apphook";
+import parse from "html-react-parser";
   
   export default function TermsOfService(): React.JSX.Element {
     const navigate = useNavigate();
+
+    const legalData = useAppSelector((state) => state.legal.legalData);
+
   
     return (
       <Box
@@ -44,9 +49,7 @@ import {
           </Toolbar>
         </AppBar>
         <Box flex={1} p={2}>
-          <Container>
-            <Typography> The terms of service goes in here ... </Typography>
-          </Container>
+          <Container>{parse(legalData[0]?.terms)}</Container>
         </Box>
         <Box
           display={"flex"}
