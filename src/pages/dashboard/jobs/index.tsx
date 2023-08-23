@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Card,
   Grid,
@@ -13,26 +12,26 @@ import {
 } from "@mui/material";
 import * as React from "react";
 import RoundedButton from "../../../components/button/round_button";
-import image from "../../../assets/images/illus.png";
 import { useAppSelector } from "../../../utils/hooks/apphook";
-import { NavLink, useNavigate } from "react-router-dom";
-import { CustomLink } from "../../../layouts/navbars/main_navbar";
-import LinearProgressLabel from "../../../components/progress/linear_progress";
+import { useNavigate } from "react-router-dom";
 import MyPostedJobCard from "../../../components/jobs/my_job_card";
 import notfound from "../../../assets/images/empty.png";
+import JobCard from "../../../components/jobs/jobs_card";
+import TabSection from "./tab_section";
 
 export default function Jobs(): React.JSX.Element {
   let theme = useTheme();
   const navigate = useNavigate();
   const [currProgress, setCurrProgress] = React.useState(0);
-  const profile = useAppSelector((state) => state.auth.profile);
 
   const [deviceType, setDeviceType] = React.useState("mobile");
 
   const mobile = useMediaQuery(theme.breakpoints.only("xs"));
   const tablet = useMediaQuery(theme.breakpoints.only("sm"));
 
+  const profile = useAppSelector((state) => state.auth.profile);
   const postedJobs = useAppSelector((state) => state.jobs.myPostedJobs);
+  const jobs = useAppSelector((state) => state.jobs.jobs);
 
   React.useEffect(() => {
     if (mobile) {
@@ -89,30 +88,45 @@ export default function Jobs(): React.JSX.Element {
           <Toolbar />
           <Box height={"100%"}>
             <Typography gutterBottom fontWeight={600} fontSize={"1.25rem"}>
-              Posted Jobs
+              {profile?.accountType === "recruiter"
+                ? "Posted Jobs"
+                : ""}
             </Typography>
 
-            {postedJobs && postedJobs?.length > 0 ? (
-              <List>
-                {postedJobs?.map((item: any, key: number) => (
-                  <ListItem key={key}>
-                    <ListItemButton>
-                      <MyPostedJobCard data={item} />
-                    </ListItemButton>
-                  </ListItem>
-                ))}
-              </List>
+            {profile?.accountType === "recruiter" ? (
+              <>
+                {" "}
+                {postedJobs && postedJobs?.length > 0 ? (
+                  <List>
+                    {postedJobs?.map((item: any, key: number) => (
+                      <ListItem key={key}>
+                        <ListItemButton>
+                          <MyPostedJobCard data={item} />
+                        </ListItemButton>
+                      </ListItem>
+                    ))}
+                  </List>
+                ) : (
+                  <Box
+                    display={"flex"}
+                    flexDirection={"column"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                    height={
+                      deviceType === "pc"
+                        ? "70%"
+                        : deviceType === "tablet"
+                        ? "90%"
+                        : "60%"
+                    }
+                  >
+                    <img src={notfound} alt="" width={100} />
+                    <Typography>You have not posted any job yet</Typography>
+                  </Box>
+                )}
+              </>
             ) : (
-              <Box
-                display={"flex"}
-                flexDirection={"column"}
-                justifyContent={"center"}
-                alignItems={"center"}
-                height={deviceType === "pc" ? "70%": deviceType === "tablet" ? "90%" : "60%"}
-              >
-                <img src={notfound} alt="" width={100} />
-                <Typography>You have not posted any job yet</Typography>
-              </Box>
+             <TabSection/> 
             )}
           </Box>
         </Grid>

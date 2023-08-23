@@ -68,9 +68,13 @@ export default function ProCard(props: Props) {
     }
   }, [mobile, tablet]);
 
-  // React.useEffect(() => {
-  //   const checkLiked = () => {};
-  // }, []);
+  React.useEffect(() => {
+    profile?.savedPros?.forEach((elem: any) => {
+      if (elem === data?.id) {
+        setLiked(true);
+      }
+    });
+  }, [data?.id, profile?.savedPros]);
 
   const like = async () => {
     try {
@@ -141,8 +145,18 @@ export default function ProCard(props: Props) {
             <Avatar
               alt="Remy Sharp"
               sx={{
-                width: deviceType === "pc" ? 128 : 48,
-                height: deviceType === "pc" ? 128 : 48,
+                width:
+                  deviceType === "pc"
+                    ? 130
+                    : deviceType === "tablet"
+                    ? 112
+                    : 96,
+                height:
+                  deviceType === "pc"
+                    ? 130
+                    : deviceType === "tablet"
+                    ? 112
+                    : 96,
               }}
               src={data?.bio?.image}
             />
@@ -224,12 +238,13 @@ export default function ProCard(props: Props) {
             }}
             onClick={() => {
               if (isAuth && location.pathname.startsWith("/dashboard")) {
+                navigate("/dashboard/professionals/" + data?.id, {
+                  state: { user: data },
+                });
+              } else if (isAuth) {
                 navigate("/professionals/" + data?.id, {
                   state: { user: data },
                 });
-                // navigate("/dashboard/professionals/" + data?.id, {
-                //   state: { user: data },
-                // });
               } else {
                 //Prompt to login
                 setOpenDialog(true);

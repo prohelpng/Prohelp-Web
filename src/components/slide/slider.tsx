@@ -4,7 +4,6 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 // import slickPrev from "react-slick";
 import Box from "@mui/material/Box";
-import { cards } from "../../utils/data/data";
 import CategoryCard from "../category/category_card";
 import theme from "../../assets/theme/Theme";
 import {
@@ -14,6 +13,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { ArrowBackIosNew, ArrowForwardIos } from "@mui/icons-material";
+import { useAppSelector } from "../../utils/hooks/apphook";
 // import CustomContainer from "../container";
 
 const Slide = () => {
@@ -22,6 +22,8 @@ const Slide = () => {
   const mobile = useMediaQuery(theme.breakpoints.only("xs"));
   const tablet = useMediaQuery(theme.breakpoints.only("sm"));
   const tabletBig = useMediaQuery(theme.breakpoints.only("md"));
+
+  const professions = useAppSelector((state) => state.professions.professions)
 
   React.useEffect(() => {
     if (mobile) {
@@ -62,7 +64,7 @@ const Slide = () => {
         </Typography>
         <Box position={"relative"}>
           <Slider {...settings} ref={customSlider}>
-            {cards.map((item) => (
+            {professions?.map((item: any) => (
               <CategoryCard key={item.id} item={item} />
             ))}
           </Slider>
@@ -78,7 +80,7 @@ const Slide = () => {
           >
             <IconButton
               sx={{
-                bgcolor: theme.palette.primary.main,
+                bgcolor: "#000",
                 color: "white",
               }}
               onClick={() => customSlider?.current?.slickPrev()}
@@ -88,7 +90,7 @@ const Slide = () => {
 
             <IconButton
               sx={{
-                bgcolor: theme.palette.primary.main,
+                bgcolor: "#000",
                 color: "white",
               }}
               onClick={() => customSlider?.current?.slickNext()}

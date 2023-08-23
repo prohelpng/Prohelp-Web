@@ -8,6 +8,7 @@ import { AppBar, Grid, List, Typography, useMediaQuery } from "@mui/material";
 import { useAppSelector } from "../../../utils/hooks/apphook";
 import ProCard from "../../../components/professional/pro_card";
 import ProfessionalCardLoader from "../../../components/skeleton/pro_card_loader";
+import JobCard from "../../../components/jobs/jobs_card";
 
 interface StyledTabsProps {
   children?: React.ReactNode;
@@ -73,7 +74,7 @@ function TabPanel(props: TabPanelProps) {
     >
       {value === index && (
         <Box sx={{ p: 1 }}>
-          <>{children}</>
+          <Typography>{children}</Typography>
         </Box>
       )}
     </div>
@@ -91,7 +92,7 @@ export default function TabSection() {
   const [value, setValue] = React.useState(0);
   const theme = useTheme();
   const savedPros = useAppSelector((state) => state.users.savedPros);
-  const professionals = useAppSelector((state) => state.users.professionals);
+  const jobs = useAppSelector((state) => state.jobs.jobs);
 
   const [deviceType, setDeviceType] = React.useState("mobile");
 
@@ -130,17 +131,17 @@ export default function TabSection() {
         >
           <Tab
             sx={{ fontSize: 16, textTransform: "capitalize" }}
-            label="Professionals"
+            label="Available Jobs"
             {...a11yProps(0)}
           />
           <Tab
             sx={{ fontSize: 16, textTransform: "capitalize" }}
-            label="Saved"
+            label="Saved Jobs"
             {...a11yProps(1)}
           />
           <Tab
             sx={{ fontSize: 16, textTransform: "capitalize" }}
-            label="Connections"
+            label="Applied"
             {...a11yProps(2)}
           />
         </Tabs>
@@ -154,10 +155,10 @@ export default function TabSection() {
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
           <Grid container spacing={2}>
-            {professionals
-              ? professionals?.map((item: any) => (
+            {jobs
+              ? jobs?.map((item: any) => (
                   <Grid item xs={12} sm={12} md={6} lg={4}>
-                    <ProCard data={item} height={360} />{" "}
+                    <JobCard item={item} isLoading={false} />
                   </Grid>
                 ))
               : [1, 2, 3]?.map((item) => (
@@ -168,7 +169,7 @@ export default function TabSection() {
           </Grid>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <Grid container spacing={2}>
+          {/* <Grid container spacing={2}>
             {savedPros
               ? savedPros?.map((item: any) => (
                   <Grid item xs={12} sm={12} md={6} lg={4}>
@@ -180,7 +181,7 @@ export default function TabSection() {
                     <ProfessionalCardLoader />
                   </Grid>
                 ))}
-          </Grid>
+          </Grid> */}
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           Item Three
@@ -190,35 +191,36 @@ export default function TabSection() {
   ) : (
     <Box sx={{ width: "100%" }}>
       <Box
-        sx={{ bgcolor: "#fff", color: "black" }}
+        sx={{ bgcolor: "#fff", border: "1px solid", color: "black" }}
+        borderRadius={4}
       >
         <StyledTabs
           value={value}
           onChange={handleChange}
           aria-label="styled tabs example"
         >
-          <StyledTab label={"Professionals"} />
-          <StyledTab label="Saved" />
-          <StyledTab label="Connections" />
+          <StyledTab label={"Available Jobs"} />
+          <StyledTab label="Saved Jobs" />
+          <StyledTab label="Applied" />
         </StyledTabs>
         <Box>
           <TabPanel value={value} index={0} dir={theme.direction}>
             <Grid container spacing={2}>
-              {professionals
-                ? professionals?.map((item: any) => (
-                    <Grid item xs={12} sm={12} md={6} lg={4}>
-                      <ProCard data={item} height={360} />{" "}
+              {jobs
+                ? jobs?.map((item: any) => (
+                    <Grid item xs={12} sm={12} md={6} lg={6} xl={4}>
+                      <JobCard item={item} isLoading={false} />
                     </Grid>
                   ))
                 : [1, 2, 3]?.map((item) => (
-                    <Grid item xs={12} sm={12} md={6} lg={4}>
+                    <Grid item xs={12} sm={12} md={6} lg={6} xl={4}>
                       <ProfessionalCardLoader />
                     </Grid>
                   ))}
             </Grid>
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            <Grid container spacing={2}>
+            {/* <Grid container spacing={2}>
               {savedPros
                 ? savedPros?.map((item: any) => (
                     <Grid item xs={12} sm={12} md={6} lg={4}>
@@ -230,7 +232,7 @@ export default function TabSection() {
                       <ProfessionalCardLoader />
                     </Grid>
                   ))}
-            </Grid>
+            </Grid> */}
           </TabPanel>
           <TabPanel value={value} index={2} dir={theme.direction}>
             Item Three

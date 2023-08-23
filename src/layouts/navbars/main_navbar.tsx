@@ -162,6 +162,7 @@ export default function MainNavbar(props: Props) {
                     location.pathname.startsWith("/professionals") ||
                     location.pathname.startsWith("/category") ||
                     location.pathname.startsWith("/contact") ||
+                    location.pathname.startsWith("/searchresults") ||
                     scrolled ? (
                       <ScrolledLogo scrolled={scrolled} />
                     ) : (
@@ -179,6 +180,7 @@ export default function MainNavbar(props: Props) {
                           location.pathname.startsWith("/professionals") ||
                           location.pathname.startsWith("/category") ||
                           location.pathname.startsWith("/contact") ||
+                          location.pathname.startsWith("/searchresults") ||
                           scrolled
                             ? "black"
                             : "white",
@@ -201,6 +203,7 @@ export default function MainNavbar(props: Props) {
                           location.pathname.startsWith("/professionals") ||
                           location.pathname.startsWith("/category") ||
                           location.pathname.startsWith("/contact") ||
+                          location.pathname.startsWith("/searchresults") ||
                           scrolled
                             ? "black"
                             : "white",
@@ -222,6 +225,7 @@ export default function MainNavbar(props: Props) {
                           location.pathname.startsWith("/professionals") ||
                           location.pathname.startsWith("/category") ||
                           location.pathname.startsWith("/contact") ||
+                          location.pathname.startsWith("/searchresults") ||
                           scrolled
                             ? "black"
                             : "white",
@@ -238,6 +242,7 @@ export default function MainNavbar(props: Props) {
                           location.pathname.startsWith("/professionals") ||
                           location.pathname.startsWith("/category") ||
                           location.pathname.startsWith("/contact") ||
+                          location.pathname.startsWith("/searchresults") ||
                           scrolled
                             ? "black"
                             : "white",
@@ -266,6 +271,7 @@ export default function MainNavbar(props: Props) {
                             location.pathname.startsWith("/professionals") ||
                             location.pathname.startsWith("/category") ||
                             location.pathname.startsWith("/contact") ||
+                            location.pathname.startsWith("/searchresults") ||
                             scrolled
                               ? "white"
                               : theme.palette.primary.main,
@@ -275,6 +281,7 @@ export default function MainNavbar(props: Props) {
                             location.pathname.startsWith("/professionals") ||
                             location.pathname.startsWith("/category") ||
                             location.pathname.startsWith("/contact") ||
+                            location.pathname.startsWith("/searchresults") ||
                             scrolled
                               ? theme.palette.primary.main
                               : "white",
@@ -300,6 +307,7 @@ export default function MainNavbar(props: Props) {
                   location.pathname.startsWith("/professionals") ||
                   location.pathname.startsWith("/category") ||
                   location.pathname.startsWith("/contact") ||
+                  location.pathname.startsWith("/searchresults") ||
                   scrolled ? (
                     <ScrolledLogo scrolled={scrolled} />
                   ) : (
@@ -309,6 +317,7 @@ export default function MainNavbar(props: Props) {
                   {location.pathname.startsWith("/professionals") ||
                   location.pathname.startsWith("/category") ||
                   location.pathname.startsWith("/contact") ||
+                  location.pathname.startsWith("/searchresults") ||
                   scrolled ? (
                     <>
                       <CustomLink

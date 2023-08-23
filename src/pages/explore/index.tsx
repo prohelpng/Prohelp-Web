@@ -51,14 +51,22 @@ export default function ExplorePro(): React.JSX.Element {
                 <Grid container spacing={2}>
                   {professionals &&
                     professionals?.map((item: any) => (
-                      <Grid item xs={12} sm={12} md={6} lg={3}> 
-                        <ProCard data={item} height={375} />
+                      <Grid item xs={12} sm={6} md={6} lg={3}>
+                        <ProCard
+                          data={item}
+                          height={
+                            deviceType === "pc"
+                              ? 375
+                              : deviceType === "tablet"
+                              ? 328
+                              : 310
+                          }
+                        />
                       </Grid>
                     ))}
                 </Grid>
               </Box>
             </Grid>
-            
           </Grid>
         </Container>
       </Box>

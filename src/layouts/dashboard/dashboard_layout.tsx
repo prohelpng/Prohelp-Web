@@ -35,7 +35,7 @@ import {
 } from "@mui/material";
 import RoundedButton from "../../components/button/round_button";
 import { Logout, Notifications } from "@mui/icons-material";
-import MaterialSearchbar from "../../components/inputs/material_search";
+// import MaterialSearchbar from "../../components/inputs/material_search";
 import { SearchFieldTop } from "../../components/inputs/search_field";
 
 import customMenuIcon from "../../assets/images/menu_icon.svg";
@@ -316,7 +316,7 @@ export default function DashbboardLayout() {
         position="fixed"
         open={open}
         sx={{
-          backgroundColor: open ? theme.palette.primary.main : "#eee",
+          backgroundColor: "#eee",
           display: { xs: "none", sm: "none", md: "block" },
         }}
       >
@@ -334,16 +334,18 @@ export default function DashbboardLayout() {
           >
             <MenuIcon color="primary" />
           </IconButton>
-          <img
-            src={brandDark}
-            alt=""
-            width={128}
-            onClick={() => navigate("/")}
-            style={{ cursor: "pointer" }}
-          />
+          {!open && (
+            <img
+              src={brandDark}
+              alt=""
+              width={128}
+              onClick={() => navigate("/")}
+              style={{ cursor: "pointer" }}
+            />
+          )}
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            {open ? <MaterialSearchbar /> : <SearchFieldTop />}
+            {<SearchFieldTop />}
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
@@ -409,7 +411,7 @@ export default function DashbboardLayout() {
           borderRadius={open ? 0 : 21}
           ml={open ? 0 : 1}
           mb={open ? 0 : 1}
-          bgcolor={open ? theme.palette.primary.main : "transparent"}
+          bgcolor={open ? "#eee" : "transparent"}
           height={"100%"}
           display={"flex"}
           flexDirection={"column"}
@@ -423,13 +425,13 @@ export default function DashbboardLayout() {
             }}
           >
             <img
-              src={brand}
+              src={brandDark}
               alt=""
               width={128}
               onClick={() => navigate("/")}
               style={{ cursor: "pointer" }}
             />
-            <IconButton onClick={handleDrawerClose}>
+            <IconButton onClick={handleDrawerClose} color="primary">
               {theme.direction === "rtl" ? (
                 <ChevronRightIcon />
               ) : (
@@ -444,8 +446,9 @@ export default function DashbboardLayout() {
             flexDirection={"column"}
             px={1}
             pt={5}
-            bgcolor={theme.palette.primary.main}
+            bgcolor={!open ? theme.palette.primary.main : "#fff"}
             borderRadius={open ? 0 : 21}
+            sx={{ backdropFilter: "blur(5px) brightness(50%)" }}
           >
             <List sx={{ borderRadius: 21 }}>
               {drawerListItems?.map((data, index) => (

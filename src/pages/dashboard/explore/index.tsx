@@ -16,6 +16,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { CustomLink } from "../../../layouts/navbars/main_navbar";
 import LinearProgressLabel from "../../../components/progress/linear_progress";
 import TabSection from "./tab_section";
+import coins from "../../../assets/images/coin_gold.png";
 
 export default function Explore(): React.JSX.Element {
   let theme = useTheme();
@@ -37,7 +38,6 @@ export default function Explore(): React.JSX.Element {
       setDeviceType("pc");
     }
   }, [mobile, tablet]);
-
 
   const calculateProgress = async () => {};
 
@@ -153,7 +153,12 @@ export default function Explore(): React.JSX.Element {
               <Typography gutterBottom variant="body2" color={"black"}>
                 {`${profile?.email}`}
               </Typography>
-              <Typography variant="body2" fontWeight={600} textTransform={"uppercase"} color={"primary"}>
+              <Typography
+                variant="body2"
+                fontWeight={600}
+                textTransform={"uppercase"}
+                color={"primary"}
+              >
                 {`${profile?.accountType}`}
               </Typography>
             </Box>
@@ -178,7 +183,7 @@ export default function Explore(): React.JSX.Element {
                 Profile Completeness:
               </CustomLink>
               <LinearProgressLabel progress={currProgress} />
-              {profile?.accountType === "recruiter" ? (
+              {profile?.accountType === "recruiter" && (
                 <Box color={"black"}>
                   <Typography pt={4} variant="body2" gutterBottom>{`${
                     profile?.myJobs?.length < 1
@@ -198,9 +203,33 @@ export default function Explore(): React.JSX.Element {
                     Post Job
                   </RoundedButton>
                 </Box>
-              ) : (
-                <Box>Migos ma</Box>
               )}
+            </Box>
+            <Box
+              py={4}
+              px={2}
+              width={"100%"}
+              display={"flex"}
+              flexDirection={"column"}
+              justifyContent={"start"}
+              alignItems={"start"}
+            >
+              <Typography
+                variant="body2"
+                fontWeight={600}
+                textAlign={"center"}
+                textTransform={"uppercase"}
+                color={"primary"}
+                gutterBottom={true}
+              >
+                My Wallet
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={6} sm={6}>
+                  <img src={coins} alt="" width={"40%"} />
+                  <Typography>{`${profile?.wallet?.balance} coins`}</Typography>
+                </Grid>
+              </Grid>
             </Box>
           </Card>
         </Grid>

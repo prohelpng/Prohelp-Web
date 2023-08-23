@@ -1,7 +1,7 @@
 import * as axios from "axios";
 
 // console.info('BASE_URL: ->', process.env.REACT_APP_BASE_URL);
- /* "http://192.168.0.106:8080/api"    ,*/
+/* "http://192.168.0.106:8080/api" ,*/
 
 const axiosInstance = axios.default?.create({
   baseURL: "https://my-prohelp-server.vercel.app/api",

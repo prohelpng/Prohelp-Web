@@ -23,7 +23,7 @@ import RoundedButton from "../../button/round_button";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { useAppDispatch } from "../../../utils/hooks/apphook";
+import { useAppDispatch, useAppSelector } from "../../../utils/hooks/apphook";
 import { setLoading } from "../../../redux/reducers/loader";
 import APIService from "../../../service";
 import { useNavigate } from "react-router-dom";
@@ -56,6 +56,8 @@ export default function SignupForm(props: Props) {
   const mobile = useMediaQuery(theme.breakpoints.only("xs"));
   const tablet = useMediaQuery(theme.breakpoints.only("sm"));
 
+  const professions = useAppSelector((state) => state.professions.professions);
+
   React.useEffect(() => {
     if (mobile) {
       setDeviceType("mobile");
@@ -77,20 +79,20 @@ export default function SignupForm(props: Props) {
     },
   ];
 
-  const professions = [
-    {
-      label: "Catering",
-      value: "catering",
-    },
-    {
-      label: "Lawyer",
-      value: "lawyer",
-    },
-    {
-      label: "Software Developer",
-      value: "software developer",
-    },
-  ];
+  // const professions = [
+  //   {
+  //     label: "Catering",
+  //     value: "catering",
+  //   },
+  //   {
+  //     label: "Lawyer",
+  //     value: "lawyer",
+  //   },
+  //   {
+  //     label: "Software Developer",
+  //     value: "software developer",
+  //   },
+  // ];
 
   const initValues: RegState = {
     emailAddress: "",
@@ -303,9 +305,9 @@ export default function SignupForm(props: Props) {
                     }
                     id="profession"
                   >
-                    {professions.map((prof) => (
-                      <option key={prof.value} value={prof.value}>
-                        {prof.label}
+                    {professions.map((prof: any) => (
+                      <option key={prof.name} value={prof.name}>
+                        {prof.name}
                       </option>
                     ))}
                   </NativeSelect>

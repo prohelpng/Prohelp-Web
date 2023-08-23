@@ -47,6 +47,7 @@ import useLegal from "./utils/hooks/use_legal";
 import { setLegal } from "./redux/reducers/legal";
 import ContactUs from "./pages/contact";
 import FAQs from "./pages/faq";
+import SearchResultsPage from "./pages/search_results";
 
 function App() {
   const [deviceType, setDeviceType] = React.useState("mobile");
@@ -65,7 +66,7 @@ function App() {
   const { data } = useProfile();
   const { data: jobData } = useJobs();
   const { data: legalData } = useLegal();
-  console.log("LEGSK S", legalData);
+  // console.log("LEGSK S", legalData);
 
   const { data: proData } = useProfessionals();
   const { data: savedProsData } = useSavedPros();
@@ -159,7 +160,6 @@ function App() {
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={loading}
-        // onClick={handleClose}
       >
         <CircularProgress color="inherit" />
       </Backdrop>
@@ -188,6 +188,7 @@ function App() {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-use" element={<TermsOfService />} />
         <Route path="/faqs" element={<FAQs />} />
+        <Route path="/searchresults/:key" element={<SearchResultsPage />} />
         <Route
           path="/professionals/:id"
           element={
@@ -207,6 +208,7 @@ function App() {
             />
             <Route path="/dashboard/explore" element={<Explore />} />
             <Route path="/dashboard/jobs" element={<Jobs />} />
+            <Route path="/dashboard/about" element={<div />} />
             <Route path="/dashboard/message" element={<MessageCenter />} />
             <Route path="/dashboard/support" element={<Support />} />
             <Route path="/dashboard/account" element={<Account />} />

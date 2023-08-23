@@ -164,13 +164,13 @@ export default function UserProfile() {
         <EducationSection education={user?.education} />
       </Grid>
       <Grid item xs={12} sm={12} md={5} lg={4}>
-        <Card>
+        {/* <Card>
           <Box py={3} px={2}>
             <Typography fontWeight={600} fontSize={"1.25rem"}>
               People also viewed
             </Typography>
           </Box>
-        </Card>
+        </Card> */}
       </Grid>
     </Grid>
   );

@@ -87,6 +87,10 @@ export default function Account() {
       title: "Contact support",
       icon: supportIcon,
     },
+    {
+      title: "My Wallet",
+      icon: supportIcon,
+    },
   ];
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {

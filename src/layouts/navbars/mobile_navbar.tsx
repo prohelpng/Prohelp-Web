@@ -53,7 +53,30 @@ export default function MobileNavbar() {
             justifyContent={"space-between"}
             alignItems={"center"}
           >
-            <Button variant="text" sx={{ height: "100%" }}>
+            <Button
+              variant="text"
+              sx={{ height: "100%" }}
+              onClick={() => navigate("/")}
+            >
+              <Box
+                width={40}
+                height={"100%"}
+                display={"flex"}
+                flexDirection={"column"}
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <Typography color={"white"} textTransform={"capitalize"}>
+                  Home
+                </Typography>
+              </Box>
+            </Button>
+
+            <Button
+              variant="text"
+              sx={{ height: "100%" }}
+              onClick={() => navigate("/explore")}
+            >
               <Box
                 width={40}
                 height={"100%"}
@@ -77,11 +100,7 @@ export default function MobileNavbar() {
                 justifyContent={"space-between"}
                 alignItems={"center"}
               >
-                <Typography
-                  gutterBottom
-                  color={"white"}
-                  textTransform={"capitalize"}
-                >
+                <Typography color={"white"} textTransform={"capitalize"}>
                   Jobs
                 </Typography>
               </Box>
