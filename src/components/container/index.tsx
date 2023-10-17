@@ -11,5 +11,5 @@ export interface ContainerChildren {
 // }));
 
 export default function CustomContainer(children: ContainerChildren): any {
-  return <Container disableGutters {...children}></Container>;
+  return <Container maxWidth={false}  disableGutters {...children}></Container>;
 }

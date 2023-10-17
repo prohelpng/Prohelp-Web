@@ -58,7 +58,7 @@ const Slide = () => {
       paddingY={deviceType === "pc" ? 18 : deviceType === "tablet" ? 14 : 10}
       bgcolor={"white"}
     >
-      <Container>
+      <Container maxWidth={false} >
         <Typography gutterBottom fontWeight={600} variant="h4">
           Popular Services
         </Typography>

@@ -29,13 +29,30 @@ function CategoryCard(props: Props) {
       >
         <Box
           component={"div"}
-          className="overlay overlay_4"
           display={"flex"}
+          height={"100%"}
+          px={2}
           flexDirection={"column"}
-          justifyContent={"center"}
-          alignItems={"center"}
+          justifyContent={"end"}
+          alignItems={"start"}
         >
-          <h3>{item?.name}</h3>
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              width: "100%",
+              borderBottomRightRadius: 5,
+              borderBottomLeftRadius: 5,
+              backgroundImage: 'linear-gradient(transparent, #0e0e0e)',
+              color: "white",
+              paddingX: "10px",
+              paddingTop: '16px',
+              paddingBottom: 1,
+            }}
+          >
+            <h3 style={{textAlign: 'center'}} >{item?.name}</h3>
+          </Box>
         </Box>
         {/* <div />
         <Typography>{item?.name}</Typography> */}

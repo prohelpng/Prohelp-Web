@@ -48,6 +48,7 @@ import { setLegal } from "./redux/reducers/legal";
 import ContactUs from "./pages/contact";
 import FAQs from "./pages/faq";
 import SearchResultsPage from "./pages/search_results";
+import AccountSearchResultsPage from "./pages/dashboard/explore/search_result";
 
 function App() {
   const [deviceType, setDeviceType] = React.useState("mobile");
@@ -207,11 +208,12 @@ function App() {
               element={<Navigate to="/dashboard/explore" replace />}
             />
             <Route path="/dashboard/explore" element={<Explore />} />
-            <Route path="/dashboard/jobs" element={<Jobs />} />
-            <Route path="/dashboard/about" element={<div />} />
+            <Route path="/dashboard/connections" element={<Jobs />} />
+            <Route path="/dashboard/report" element={<div />} />
             <Route path="/dashboard/message" element={<MessageCenter />} />
             <Route path="/dashboard/support" element={<Support />} />
             <Route path="/dashboard/account" element={<Account />} />
+            <Route path="/dashboard/search/:key" element={<AccountSearchResultsPage />} />
             <Route
               path="/dashboard/professionals/:id"
               element={<UserProfile />}

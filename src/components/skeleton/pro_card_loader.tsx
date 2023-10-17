@@ -1,51 +1,102 @@
+import { Favorite } from "@mui/icons-material";
 import { Box, Skeleton } from "@mui/material";
 
 export default function ProShimmer() {
   return (
     <Box
-      height={320}
+      p={2}
+      height={400}
       width={"100%"}
       display={"flex"}
       flexDirection={"column"}
       justifyContent={"start"}
       alignItems={"start"}
+      border={"0.5px solid grey"}
+      borderRadius={6}
     >
       <Box
         width={"100%"}
         display={"flex"}
         flexDirection={"row"}
-        justifyContent={"start"}
+        justifyContent={"center"}
         alignItems={"center"}
+        position={"relative"}
       >
-        <Skeleton variant="circular" height={64} animation="wave" width={64} />
-        <Box width={"100%"}>
-          <Skeleton sx={{ mx: 2 }} height={18} animation="wave" width={"75%"} />
-          <Skeleton sx={{ mx: 2 }} height={18} animation="wave" width={"50%"} />
+        <Skeleton
+          variant="circular"
+          height={128}
+          animation="wave"
+          width={128}
+        />
+        <Box position={"absolute"} right={2} top={2}>
+          <Favorite fontSize="medium" color="secondary" />
         </Box>
       </Box>
-      <Box width={"100%"} py={1} >
-        <Skeleton animation="wave" variant="rectangular" height={144} width={"100%"} />
-
+      <Box
+        width={"100%"}
+        py={1}
+        display={"flex"}
+        flexDirection={"column"}
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
+        <Skeleton animation="wave" variant="text" height={32} width={"70%"} />
+        <Skeleton animation="wave" variant="text" height={21} width={"20%"} />
+        <Skeleton animation="wave" variant="text" height={21} width={"40%"} />
+        <Skeleton animation="wave" variant="text" height={21} width={"36%"} />
+        
         <Box
           width={"100%"}
           display={"flex"}
           flexDirection={"row"}
-          justifyContent={"start"}
+          justifyContent={"center"}
           alignItems={"center"}
           py={2}
         >
           <Skeleton
             variant="rounded"
             animation="wave"
-            height={48}
-            sx={{ mr: 2 }}
-            width={"30%"}
+            height={30}
+            sx={{borderRadius: 4}}
+            width={"20%"}
           />
           <Skeleton
             variant="rounded"
             animation="wave"
-            height={48}
-            width={"30%"}
+            height={30}
+            sx={{ mx: 1, borderRadius: 4 }}
+            width={"20%"}
+          />
+           <Skeleton
+            variant="rounded"
+            animation="wave"
+            height={30}
+            sx={{borderRadius: 4}}
+            width={"20%"}
+          />
+        </Box>
+
+        <Box
+          width={"100%"}
+          display={"flex"}
+          flexDirection={"row"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          pt={4}
+        >
+          <Skeleton
+            variant="rounded"
+            animation="wave"
+            height={36}
+            sx={{borderRadius: 6}}
+            width={"36%"}
+          />
+          <Skeleton
+            variant="rounded"
+            animation="wave"
+            height={36}
+            sx={{ ml: 2, borderRadius: 6 }}
+            width={"36%"}
           />
         </Box>
       </Box>

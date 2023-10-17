@@ -43,7 +43,7 @@ export default function Header() {
       <div
         style={{ width: "100%", height: "100%", backgroundColor: "#00000091" }}
       >
-        <Container sx={{ height: "100%", zIndex: 1000 }}>
+        <Container maxWidth={false} sx={{ height: "100%", zIndex: 1000 }}>
           <Grid
             sx={{ height: "100%" }}
             container
@@ -59,14 +59,16 @@ export default function Header() {
                 fontSize={deviceType === "pc" ? "3.5rem" : deviceType === "tablet" ? "3.125rem" : "2.25rem"}
                 component="h1"
                 color="white"
-                textAlign={"center"}
+                fontWeight={700}
+                textAlign={"left"}
+                lineHeight={1.2}
               >
-                Find the right professional, for you
+                Find the right professional for you.
               </Typography>
               <FreeSolo />
               {/* <SearchField /> */}
             </Grid>
-            {/* {deviceType === "pc" && (
+            {deviceType === "pc" && (
             <Grid
               sx={{ height: "100%" }}
               item
@@ -77,9 +79,9 @@ export default function Header() {
               flexDirection={"column"}
               justifyContent={"end"}
             >
-              <img src={image} width="125%" alt="" />
+              {/* <img src={image} width="125%" alt="" /> */}
             </Grid>
-          )} */}
+          )}
           </Grid>
         </Container>
       </div>

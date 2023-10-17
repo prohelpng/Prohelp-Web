@@ -144,13 +144,13 @@ export default function SignupForm(props: Props) {
         navigate("/verify-otp");
       } catch (err: any) {
         dispatch(setLoading(false));
-        console.log("ERR MSG", err?.message || "Check internet");
-        toast.error(err?.message || "Check your internet connection");
+        console.log("ERR MSG", err || "Check internet");
+        toast.error(err?.response?.data?.message || "Check your internet connection");
       }
     },
   });
 
-  const { errors, touched, values, getFieldProps, handleSubmit } = formik;
+  const { errors, touched, values, getFieldProps, handleSubmit, setFieldValue } = formik;
 
   const handleShowPassword = () => {
     setShowPassword((show) => !show);
@@ -222,7 +222,9 @@ export default function SignupForm(props: Props) {
               <PhoneInput
                 country={"ng"}
                 value={values.phone}
-                onChange={(phone) => {}}
+                onChange={(phone) => {
+                  setFieldValue('phone', phone)
+                }}
                 placeholder="Enter phone number"
                 inputProps={{
                   name: "phone",
@@ -248,6 +250,7 @@ export default function SignupForm(props: Props) {
                     <OutlinedInput {...getFieldProps("gender")} id="gender" />
                   }
                   id="gender"
+                  {...getFieldProps("gender")}
                 >
                   {sex.map((gender) => (
                     <option key={gender.value} value={gender.value}>

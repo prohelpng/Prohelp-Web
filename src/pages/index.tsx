@@ -10,8 +10,8 @@ export default function RootPage() {
   return (
     <div>
       <Header />
-      <TrustedBy />
       <Slide /> 
+      <TrustedBy />
       <PopularJobs />
       <BestPart />
       <WhyPrpohelp />

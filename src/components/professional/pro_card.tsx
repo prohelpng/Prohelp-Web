@@ -188,7 +188,7 @@ export default function ProCard(props: Props) {
                 {`${data?.profession}`}
               </Typography>
               <Typography variant="body2" textTransform={"capitalize"}>
-                {`${data?.address?.city}, ${data?.address?.country}`}
+                {`${data?.address?.state}, ${data?.address?.country}`}
               </Typography>
             </Box>
           </Box>
@@ -199,14 +199,14 @@ export default function ProCard(props: Props) {
           display={"flex"}
           flexDirection={"column"}
           justifyContent={"stretch"}
-          alignItems={"start"}
+          alignItems={"center"}
           // mt={deviceType === "pc" ? 1 : deviceType === "tablet" ? 1 : 0.5}
         >
           <Rating name="read-only" value={data?.rating ?? 1} readOnly />
           <Box mt={1} display={"flex"} flexDirection={"row"}>
             {data?.skills?.map((val: any) => (
               <Chip
-                sx={{ mr: 1, textTransform: "capitalize" }}
+                sx={{ mr: 1, textTransform: "capitalize", maxWidth: 100 }}
                 label={val?.name}
               />
             ))}
@@ -226,7 +226,6 @@ export default function ProCard(props: Props) {
               borderColor: theme.palette.primary.main,
               color: theme.palette.primary.main,
               padding: "12px",
-              width: 120,
               height: 40,
               borderRadius: "32px",
               textTransform: "capitalize",
@@ -260,7 +259,6 @@ export default function ProCard(props: Props) {
             sx={{
               bgcolor: theme.palette.primary.main,
               color: "white",
-              width: 120,
               height: 40,
               ml: 2,
             }}

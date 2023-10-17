@@ -1,7 +1,8 @@
-import { Box, Container, Grid, Typography, useMediaQuery } from "@mui/material";
+import { Box, Grid, Typography, useMediaQuery } from "@mui/material";
 import image from "../../assets/images/xpl.png";
 import React from "react";
 import theme from "../../assets/theme/Theme";
+import CustomContainer from "../../components/container";
 
 export default function ExploreHeader() {
   const [deviceType, setDeviceType] = React.useState("mobile");
@@ -21,7 +22,7 @@ export default function ExploreHeader() {
 
   return (
     <Box py={4} height={"75%"} bgcolor={"white"}>
-      <Container>
+      <CustomContainer>
         <Grid
           container
           spacing={2}
@@ -56,7 +57,7 @@ export default function ExploreHeader() {
             <img src={image} alt="" width={"100%"} />
           </Grid>
         </Grid>
-      </Container>
+      </CustomContainer>
     </Box>
   );
 }

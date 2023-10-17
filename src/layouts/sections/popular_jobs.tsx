@@ -1,4 +1,4 @@
-import { Box, Grid, Skeleton, Typography, useMediaQuery } from "@mui/material";
+import { Box, Grid, Typography, useMediaQuery } from "@mui/material";
 import { useAppSelector } from "../../utils/hooks/apphook";
 import JobCard from "../../components/jobs/jobs_card";
 import React from "react";
@@ -34,7 +34,7 @@ export default function PopularJobs() {
 
   return (
     <Box
-      paddingBottom={
+      paddingY={
         deviceType === "pc" ? 18 : deviceType === "tablet" ? 12 : 8
       }
       bgcolor={"white"}

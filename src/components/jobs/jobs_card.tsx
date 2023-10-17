@@ -60,7 +60,7 @@ export default function JobCard(props: Props) {
       borderRadius={6}
       border={"0.1px solid"}
       padding={deviceType === "pc" ? 3 : 1.5}
-      height={310}
+      height={386}
       width={"100%"}
       display={"flex"}
       flexDirection={"column"}

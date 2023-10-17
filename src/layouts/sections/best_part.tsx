@@ -34,7 +34,7 @@ export default function BestPart() {
           }}
         >
           <Typography gutterBottom fontWeight={600} variant="h4">
-            The Best Part of ProHelp
+            The ProHelp Advantage
           </Typography>
           <Grid container spacing={2} mb={2} mt={1}>
             <Grid item xs={12} sm={12} md={12} lg={6}>
@@ -51,8 +51,7 @@ export default function BestPart() {
                   </Typography>
                 </Box>
                 <Typography>
-                  Praesent ac eros nec purus faucibus fermentum. Integer at
-                  lorem nec erat placerat vulputate vel vel quam.
+                  Negotiate wage directly with your prospective service provider.
                 </Typography>
               </div>
 
@@ -65,12 +64,11 @@ export default function BestPart() {
               >
                 <TaskAlt />
                 <Typography ml={2} fontWeight={600} fontSize={"1.1rem"}>
-                  Get quality work done quickly
+                  Screened and evaluated workforce
                 </Typography>
               </Box>
               <Typography>
-                Praesent ac eros nec purus faucibus fermentum. Integer at lorem
-                nec erat placerat vulputate vel vel quam.
+                Verified service providers with verifiable track records.
               </Typography>
 
               <Box

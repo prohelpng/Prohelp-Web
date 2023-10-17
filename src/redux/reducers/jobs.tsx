@@ -5,12 +5,14 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 interface JobState {
   jobs: any;
   myPostedJobs: any;
+  profileJobSearchResults: any;
 }
 
 // Define the initial state using that type
 const initialState: JobState = {
   jobs: null,
-  myPostedJobs: null
+  myPostedJobs: null,
+  profileJobSearchResults: null,
 };
 
 export const jobSlice = createSlice({
@@ -24,11 +26,14 @@ export const jobSlice = createSlice({
     },
     setMyPostedJobs: (state, action: PayloadAction<any>) => {
       state.myPostedJobs = action.payload;
-    }, 
+    },
+    setProfileJobSearchResults: (state, action: PayloadAction<any>) => {
+      state.profileJobSearchResults = action.payload;
+    },
   },
 });
 
-export const { setJobs, setMyPostedJobs } = jobSlice.actions;
+export const { setJobs, setMyPostedJobs, setProfileJobSearchResults } = jobSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 // export const getJobs = (state: RootState) => state.;

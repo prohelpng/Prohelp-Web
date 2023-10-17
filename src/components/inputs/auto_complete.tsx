@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 // import { useAppSelector } from "../../utils/hooks/apphook";
 // import { useSWR } from "swr";
 import APIService from "../../service";
-import { useMediaQuery, useTheme } from "@mui/material";
+import { Button, Divider, useMediaQuery, useTheme } from "@mui/material";
 
 // import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import { useNavigate } from "react-router-dom";
@@ -84,7 +84,7 @@ export default function MyAutoComplete() {
       pl={1.5}
       border="1px solid"
       borderColor={theme.palette.primary.light}
-      borderRadius={32}
+      borderRadius={1}
       display="flex"
       bgcolor={"white"}
       color={"black"}
@@ -105,11 +105,12 @@ export default function MyAutoComplete() {
           disableUnderline: true,
           style: {
             color: "black",
+            fontSize: 13,
           },
           startAdornment: <SearchTwoTone />,
         }}
       />
-      <div style={{ color: "red", width: 10, backgroundColor: "blue" }} />
+      <Box bgcolor={'#ccc'} width={2} height={56} p={0.05} mr={2} zIndex={10} />
       <Autocomplete
         id="prohelp-search-demo"
         sx={{
@@ -150,6 +151,9 @@ export default function MyAutoComplete() {
               ...params.InputProps,
               disableUnderline: true,
               autoComplete: "new-password",
+              style: {
+                fontSize: 13,
+              }
             }}
             placeholder={"Location "}
             sx={{
@@ -198,6 +202,7 @@ export default function MyAutoComplete() {
             bgcolor: theme.palette.primary.main,
             color: "white",
             minWidth: 70,
+            textTransform: 'capitalize'
           }}
         >
           Search
@@ -217,19 +222,20 @@ export default function MyAutoComplete() {
           width: deviceType === "pc" ? 120 : deviceType === "tablet" ? 105 : 86,
         }}
       >
-        <RoundedButton
-          disabled={!searchTerm}
+        <Button
           variant="contained"
           sx={{
+            textTransform: 'capitalize',
             bgcolor: theme.palette.primary.main,
             color: "white",
+            paddingY: 2,
             minWidth:
               deviceType === "pc" ? 108 : deviceType === "tablet" ? 90 : 50,
           }}
-          onClick={() => searchFetcher(searchTerm)}
+          onClick={!searchTerm ? () => {} :() => searchFetcher(searchTerm)}
         >
           Search
-        </RoundedButton>
+        </Button>
       </Box>
     </Box>
   );

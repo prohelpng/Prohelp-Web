@@ -1,9 +1,10 @@
-import { Box, Container, Grid, Typography, useMediaQuery } from "@mui/material";
+import { Box, Grid, Typography, useMediaQuery } from "@mui/material";
 import React from "react";
 import ExploreHeader from "../../layouts/headers/explore";
 import { useAppSelector } from "../../utils/hooks/apphook";
 import ProCard from "../../components/professional/pro_card";
 import theme from "../../assets/theme/Theme";
+import CustomContainer from "../../components/container";
 
 export default function ExplorePro(): React.JSX.Element {
   const professionals = useAppSelector((state) => state.users.professionals);
@@ -38,7 +39,7 @@ export default function ExplorePro(): React.JSX.Element {
         paddingY={deviceType === "pc" ? 16 : deviceType === "tablet" ? 12 : 8}
         // bgcolor={"#efefef"}
       >
-        <Container>
+        <CustomContainer>
           <Grid container spacing={2}>
             <Grid flex={1} flexGrow={1} item xs={12} sm={12} md={12} lg={12}>
               <Box>
@@ -68,7 +69,7 @@ export default function ExplorePro(): React.JSX.Element {
               </Box>
             </Grid>
           </Grid>
-        </Container>
+        </CustomContainer>
       </Box>
     </Box>
   );

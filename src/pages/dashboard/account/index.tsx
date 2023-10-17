@@ -3,23 +3,20 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { useAppDispatch, useAppSelector } from "../../../utils/hooks/apphook";
 import {
-  AppBar,
-  Avatar,
   Divider,
-  IconButton,
   ListItemButton,
-  Tooltip,
   useMediaQuery,
 } from "@mui/material";
 import theme from "../../../assets/theme/Theme";
-import { ArrowForward, ArrowForwardIos, Person, PhonelinkLockOutlined, Security } from "@mui/icons-material";
+import { ArrowForward } from "@mui/icons-material";
 import PersonalProfile from "./personal_profile";
 import personIcon from "../../../assets/images/person_icon.svg";
 import securityIcon from "../../../assets/images/pass_icon.svg";
 import supportIcon from "../../../assets/images/support_phone.svg";
 import { useNavigate } from "react-router-dom";
+import { styled } from "@mui/material/styles";
+import MyProfile from "../../user/myprofile";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -44,6 +41,66 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
+interface StyledTabsProps {
+  children?: React.ReactNode;
+  value: number;
+  onChange: (event: React.SyntheticEvent, newValue: number) => void;
+}
+
+const StyledTabs = styled((props: StyledTabsProps) => (
+  <Tabs
+    {...props}
+    orientation="vertical"
+    variant="scrollable"
+    style={{ width: "18%" }}
+    TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" /> }}
+  />
+))({
+  "& .MuiTabs-indicator": {
+    display: "flex",
+    justifyContent: "center",
+    backgroundColor: "transparent",
+  },
+  "& .MuiTabs-indicatorSpan": {
+    maxWidth: 0,
+    width: "100%",
+    backgroundColor: "#635ee7",
+  },
+});
+
+interface StyledTabProps {
+  label: string;
+}
+
+const StyledTab = styled((props: StyledTabProps) => (
+  <Tab disableRipple {...props} />
+))(({ theme }) => ({
+  textTransform: "none",
+  fontWeight: theme.typography.fontWeightRegular,
+  fontSize: 16,
+  marginRight: theme.spacing(1),
+  fontFamily: "Inter",
+  paddingLeft: 24,
+  paddingRight: 24,
+  backgroundColor: "white",
+  marginTop: theme.spacing(1),
+  marginBottom: theme.spacing(1),
+  height: 16,
+  color: "grey",
+  "&.Mui-selected": {
+    color: "#000",
+    fontWeight: theme.typography.fontWeightBold,
+    backgroundColor: theme.palette.primary.light,
+    fontFamily: "Inter",
+    borderRadius: 10,
+    paddingLeft: 16,
+    paddingRight: 16,
+  },
+  "&.Mui-focusVisible": {
+    backgroundColor: "gray",
+  },
+}));
+
 function a11yProps(index: number) {
   return {
     id: `vertical-tab-${index}`,
@@ -54,11 +111,11 @@ function a11yProps(index: number) {
 export default function Account() {
   const [value, setValue] = React.useState(0);
 
-  const profile = useAppSelector((state) => state.auth.profile);
+  // const profile = useAppSelector((state) => state.auth.profile);
 
   const [deviceType, setDeviceType] = React.useState("mobile");
 
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const mobile = useMediaQuery(theme.breakpoints.only("xs"));
@@ -105,69 +162,9 @@ export default function Account() {
       alignItems={"start"}
       width={"100%"}
     >
-      <Box
-        width={"100%"}
-        display={"flex"}
-        flexDirection={"row"}
-        justifyContent={"center"}
-        alignItems={"center"}
-      >
-        <Box
-          display={"flex"}
-          flexDirection={"column"}
-          justifyContent={"center"}
-          alignItems={"center"}
-        >
-          <Tooltip title="Open settings" sx={{ mb: 2 }}>
-            <IconButton sx={{ p: 0 }}>
-              <Avatar
-                sx={{
-                  width:
-                    deviceType === "mobile"
-                      ? 80
-                      : deviceType === "tablet"
-                      ? 100
-                      : 128,
-                  height:
-                    deviceType === "mobile"
-                      ? 80
-                      : deviceType === "tablet"
-                      ? 100
-                      : 128,
-                  borderRadius:
-                    deviceType === "mobile"
-                      ? 40
-                      : deviceType === "tablet"
-                      ? 50
-                      : 64,
-                  border: "1px solid #0066F5",
-                }}
-                alt="Remy Sharp"
-                src="https://pbs.twimg.com/profile_images/864104988146114560/MSWTWwno_400x400.jpg"
-              />
-            </IconButton>
-          </Tooltip>
-          <Typography
-            pt={1}
-            textTransform={"capitalize"}
-            fontSize={"1.2rem"}
-            fontWeight={600}
-          >
-            {`${profile?.bio?.firstname} ${profile?.bio?.middlename} ${profile?.bio?.lastname}`}
-          </Typography>
-          <Typography
-            variant="body2"
-            gutterBottom
-            fontWeight={500}
-            textTransform={"uppercase"}
-            color={theme.palette.primary.main}
-          >{`${profile?.accountType}`}</Typography>
-        </Box>
-      </Box>
       <Divider />
       {deviceType === "pc" ? (
         <Box
-          px={2}
           sx={{
             flexGrow: 1,
             display: "flex",
@@ -175,42 +172,31 @@ export default function Account() {
             width: "100%",
           }}
         >
-          <Tabs
-            orientation="vertical"
-            variant="scrollable"
+          <StyledTabs
             value={value}
             onChange={handleChange}
-            style={{ marginRight: 10 }}
             aria-label="Vertical tabs example"
-            sx={{ borderRight: 1, borderColor: "divider" }}
+            sx={{ py: 2, position: "fixed", width: "16%" }}
           >
-            <Tab
-              icon={<Person />}
-              iconPosition="start"
-              label=" Profile"
-              {...a11yProps(0)}
-            />
-            <Tab
-              icon={<Security />}
-              iconPosition="start"
-              label="Security"
-              {...a11yProps(1)}
-            />
-            <Tab label="My Wallet " {...a11yProps(2)} />
-            <Tab label="Item Four" {...a11yProps(3)} />
-          </Tabs>
-          <TabPanel value={value} index={0}>
-            <PersonalProfile />
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            Item Two
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            Item Three
-          </TabPanel>
-          <TabPanel value={value} index={3}>
-            Item Four
-          </TabPanel>
+            <StyledTab label="My Account" {...a11yProps(0)} />
+            <StyledTab label="My Profile" {...a11yProps(1)} />
+            <StyledTab label="Security" {...a11yProps(2)} />
+            <StyledTab label="My Wallet " {...a11yProps(3)} />
+          </StyledTabs>
+          <Box ml={"22%"} width={"100%"}>
+            <TabPanel value={value} index={0}>
+              <PersonalProfile />
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              <MyProfile />
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+              Item Three
+            </TabPanel>
+            <TabPanel value={value} index={3}>
+              Item Four
+            </TabPanel>
+          </Box>
         </Box>
       ) : (
         <Box

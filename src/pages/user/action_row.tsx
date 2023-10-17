@@ -17,7 +17,7 @@ export default function ActionRow(props: Props) {
 
   return (
     <Box
-      width={"100%"}
+      width={"80%"}
       display={"flex"}
       flexDirection={"row"}
       justifyContent={"space-between"}

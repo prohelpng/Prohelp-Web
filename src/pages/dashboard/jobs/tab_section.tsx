@@ -191,7 +191,7 @@ export default function TabSection() {
   ) : (
     <Box sx={{ width: "100%" }}>
       <Box
-        sx={{ bgcolor: "#fff", border: "1px solid", color: "black" }}
+        sx={{ bgcolor: "#fff", color: "black" }}
         borderRadius={4}
       >
         <StyledTabs
@@ -203,7 +203,7 @@ export default function TabSection() {
           <StyledTab label="Saved Jobs" />
           <StyledTab label="Applied" />
         </StyledTabs>
-        <Box>
+        <Box pt={4} >
           <TabPanel value={value} index={0} dir={theme.direction}>
             <Grid container spacing={2}>
               {jobs

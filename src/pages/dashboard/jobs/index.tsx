@@ -16,8 +16,7 @@ import { useAppSelector } from "../../../utils/hooks/apphook";
 import { useNavigate } from "react-router-dom";
 import MyPostedJobCard from "../../../components/jobs/my_job_card";
 import notfound from "../../../assets/images/empty.png";
-import JobCard from "../../../components/jobs/jobs_card";
-import TabSection from "./tab_section";
+import TabSection from "../explore/tab_section";
 
 export default function Jobs(): React.JSX.Element {
   let theme = useTheme();
@@ -56,7 +55,7 @@ export default function Jobs(): React.JSX.Element {
   return (
     <Box>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={12} md={9}>
+        <Grid item xs={12} sm={12} md={12}>
           <Box
             px={deviceType === "pc" ? 6 : deviceType === "tablet" ? 4 : 2}
             py={deviceType === "pc" ? 4 : deviceType === "tablet" ? 3 : 2}
@@ -130,70 +129,7 @@ export default function Jobs(): React.JSX.Element {
             )}
           </Box>
         </Grid>
-        <Grid
-          item
-          xs={12}
-          sm={6}
-          md={3}
-          sx={{ display: { xs: "none", sm: "none", md: "block" } }}
-        >
-          <Card sx={{ borderRadius: 2 }}>
-            <Box
-              px={4}
-              pt={3}
-              pb={2}
-              bgcolor={"#fff"}
-              color={"white"}
-              display={"flex"}
-              flexDirection={"column"}
-              justifyContent={"center"}
-              alignItems={"center"}
-            >
-              <Typography
-                variant="body1"
-                gutterBottom={true}
-                fontWeight={600}
-                textTransform={"uppercase"}
-                color={"primary"}
-              >
-                {`${profile?.accountType}`}
-              </Typography>
-            </Box>
-            <Box
-              bgcolor={"#0066f51d"}
-              py={4}
-              px={2}
-              display={"flex"}
-              flexDirection={"column"}
-              justifyContent={"start"}
-              alignItems={"start"}
-            >
-              {profile?.accountType === "recruiter" ? (
-                <Box color={"black"}>
-                  <Typography variant="body2" gutterBottom>{`${
-                    profile?.myJobs?.length < 1
-                      ? "You have not posted any jobs yet. Click on the button below to start posting jobs "
-                      : ""
-                  }`}</Typography>
-                  <RoundedButton
-                    sx={{
-                      backgroundColor: theme.palette.primary.main,
-                      color: "white",
-                      height: 36,
-                      mt: 2,
-                    }}
-                    fullWidth
-                    onClick={() => navigate("/dashboard/jobs")}
-                  >
-                    Post Job
-                  </RoundedButton>
-                </Box>
-              ) : (
-                <Box>Migos ma</Box>
-              )}
-            </Box>
-          </Card>
-        </Grid>
+       
       </Grid>
     </Box>
   );

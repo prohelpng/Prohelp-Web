@@ -11,11 +11,18 @@ import { styled, useTheme } from "@mui/material/styles";
 import RoundedButton from "../../components/button/round_button";
 import useMediaQuery from "@mui/material/useMediaQuery/useMediaQuery";
 import RoundedButtonOutlined from "../../components/button/rounded_button_outlined";
-import { SearchFieldTop } from "../../components/inputs/search_field";
-import { Avatar, Button, Divider, IconButton } from "@mui/material";
-import { useAppSelector } from "../../utils/hooks/apphook";
+// import { SearchFieldTop } from "../../components/inputs/search_field";
+import { Avatar, Button, Divider, IconButton, MenuItem } from "@mui/material";
+import { useAppDispatch, useAppSelector } from "../../utils/hooks/apphook";
 import CustomContainer from "../../components/container";
 import AutocompleteMini from "../../components/inputs/auto_complete_mini";
+// import theme from "../../assets/theme/Theme";
+
+import "./pro.css";
+import { setLoading } from "../../redux/reducers/loader";
+import { setAuth, setProfile } from "../../redux/reducers/auth";
+
+import toast from "react-hot-toast";
 
 export interface Props {
   window?: () => Window;
@@ -24,6 +31,7 @@ export interface Props {
 
 interface LogoProps {
   scrolled: boolean;
+  deviceType: string;
 }
 
 interface CustomLinkProps {
@@ -51,12 +59,36 @@ function ElevationScroll(props: Props) {
   });
 }
 
-const DefaultLogo: React.FC<LogoProps> = ({ scrolled }) => (
-  <img src={brandLight} alt="" width={144} />
+const DefaultLogo: React.FC<LogoProps> = ({ scrolled, deviceType }) => (
+  <img
+    src={brandLight}
+    alt=""
+    width={
+      deviceType === "mobile"
+        ? 100
+        : deviceType === "tablet"
+        ? 128
+        : deviceType === "tabletBig"
+        ? 144
+        : 186
+    }
+  />
 );
 
-const ScrolledLogo: React.FC<LogoProps> = ({ scrolled }) => (
-  <img src={brandDark} alt="" width={144} />
+const ScrolledLogo: React.FC<LogoProps> = ({ scrolled, deviceType }) => (
+  <img
+    src={brandDark}
+    alt=""
+    width={
+      deviceType === "mobile"
+        ? 100
+        : deviceType === "tablet"
+        ? 128
+        : deviceType === "tabletBig"
+        ? 144
+        : 186
+    }
+  />
 );
 
 export const CustomLink = styled(NavLink)<CustomLinkProps>(({ theme }) => ({
@@ -71,13 +103,18 @@ export const CustomLink = styled(NavLink)<CustomLinkProps>(({ theme }) => ({
 
 export const CategoryLink = styled(Button)<CustomLinkProps>(({ theme }) => ({
   color: "white",
-  padding: "8px",
+  paddingY: "8px",
   textDecoration: "none",
   margin: "10px",
   "&:hover": {
     color: theme.palette.primary.main,
   },
 }));
+
+const resources = [
+  { title: "Profile", to: "/dashboard" },
+  { title: "Log out", to: "" },
+];
 
 export default function MainNavbar(props: Props) {
   const [deviceType, setDeviceType] = React.useState("mobile");
@@ -89,6 +126,16 @@ export default function MainNavbar(props: Props) {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [anchorEl2, setAnchorEl2] = React.useState(null);
+  const open2 = Boolean(anchorEl2);
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const handleScroll = () => {
     setScrolled(window.pageYOffset > 0);
     if (window.pageYOffset > 200) {
@@ -98,6 +145,8 @@ export default function MainNavbar(props: Props) {
     }
   };
 
+  const dispatch = useAppDispatch();
+  
   const profile = useAppSelector((state) => state.auth.profile);
   const isAuth = useAppSelector((state) => state.auth.isAuth);
   const professions = useAppSelector((state) => state.professions.professions);
@@ -121,7 +170,6 @@ export default function MainNavbar(props: Props) {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-
   }, [mobile, tablet, tabletBig]);
 
   React.useEffect(() => {
@@ -140,6 +188,23 @@ export default function MainNavbar(props: Props) {
     }
   }, [location, scrolled]);
 
+  const logout = () => {
+    dispatch(setLoading(true));
+    try {
+      setTimeout(() => {
+        localStorage.clear();
+        dispatch(setAuth(false));
+        dispatch(setProfile(null));
+        dispatch(setLoading(false));
+        toast.success("Logged out successfully");
+        navigate("/");
+      }, 2000);
+    } catch (error) {
+      console.log(error);
+      dispatch(setLoading(false));
+    }
+  };
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -149,7 +214,7 @@ export default function MainNavbar(props: Props) {
             <CustomContainer>
               {deviceType === "pc" || deviceType === "tabletBig" ? (
                 <Box
-                  p={2}
+                  py={2}
                   color={navColor}
                   display={"flex"}
                   flexDirection={"row"}
@@ -164,13 +229,18 @@ export default function MainNavbar(props: Props) {
                     location.pathname.startsWith("/contact") ||
                     location.pathname.startsWith("/searchresults") ||
                     scrolled ? (
-                      <ScrolledLogo scrolled={scrolled} />
+                      <ScrolledLogo scrolled={scrolled} deviceType={deviceType} />
                     ) : (
-                      <DefaultLogo scrolled={scrolled} />
+                      <DefaultLogo scrolled={scrolled}  deviceType={deviceType}/>
                     )}
                   </Box>
                   {show && deviceType === "pc" && <AutocompleteMini />}
-                  <Box color={navColor}>
+                  <Box
+                    color={navColor}
+                    display={"flex"}
+                    flexDirection={"row"}
+                    alignItems={"center"}
+                  >
                     <CustomLink
                       to={"/"}
                       sx={{
@@ -231,7 +301,7 @@ export default function MainNavbar(props: Props) {
                             : "white",
                       }}
                     >
-                      Become a Recruiter
+                      Hire a Professional
                     </CustomLink>
                     <CustomLink
                       to={isAuth ? "/dashboard" : "/login"}
@@ -252,14 +322,48 @@ export default function MainNavbar(props: Props) {
                         isAuth ? profile?.bio?.firstname + "..." : "Sign in"
                       }`}
                     </CustomLink>
-
+                    {/* onClick={() => navigate("/dashboard")}  */}
                     {isAuth ? (
-                      <IconButton onClick={() => navigate("/dashboard")}>
-                        <Avatar
-                          alt="Remy Sharp"
-                          src="https://pbs.twimg.com/profile_images/864104988146114560/MSWTWwno_400x400.jpg"
-                        />
-                      </IconButton>
+                      <div className="dropdown">
+                        <Button
+                          className="dropbtn"
+                          // endIcon={<ArrowDropDown sx={{ ml: -1 }} />}
+                          sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            // color:
+                            // currlocation.pathname.startsWith("/dashboard/reports")
+                            //   ? theme.palette.primary.main
+                            //   : "black",
+                            // textTransform: "capitalize",
+                          }}
+                          id="basic-button"
+                          aria-controls={open ? "basic-menu" : undefined}
+                          aria-haspopup="true"
+                        >
+                          <Avatar alt="Remy Sharp" src={profile?.bio?.image} />
+                        </Button>
+                        <div className="dropdown-content">
+                          {resources?.map((elem, index) => (
+                            <MenuItem
+                              key={index}
+                              divider={true}
+                              sx={{ fontSize: 16 }}
+                              onClick={(e) => {
+                                handleClose();
+                                if (index === 0) {
+                                  navigate(elem.to);
+                                }else {
+                                  // Log out here
+                                  logout();
+                                }
+                              }}
+                            >
+                              {elem.title}
+                            </MenuItem>
+                          ))}
+                        </div>
+                      </div>
                     ) : (
                       <RoundedButton
                         sx={{
@@ -296,7 +400,8 @@ export default function MainNavbar(props: Props) {
               ) : (
                 <Box
                   width={"100%"}
-                  p={deviceType === "pc" ? 2 : 0}
+                  py={0}
+                  color={navColor}
                   display={"flex"}
                   flexDirection={"row"}
                   justifyContent={"space-between"}
@@ -309,9 +414,9 @@ export default function MainNavbar(props: Props) {
                   location.pathname.startsWith("/contact") ||
                   location.pathname.startsWith("/searchresults") ||
                   scrolled ? (
-                    <ScrolledLogo scrolled={scrolled} />
+                    <ScrolledLogo scrolled={scrolled}  deviceType={deviceType} />
                   ) : (
-                    <DefaultLogo scrolled={scrolled} />
+                    <DefaultLogo scrolled={scrolled} deviceType={deviceType} />
                   )}
                   <Box sx={{ flexGrow: 1 }} />
                   {location.pathname.startsWith("/professionals") ||
@@ -330,10 +435,7 @@ export default function MainNavbar(props: Props) {
                       </CustomLink>
                       {isAuth ? (
                         <IconButton onClick={() => navigate("/dashboard")}>
-                          <Avatar
-                            alt="Remy Sharp"
-                            src="https://pbs.twimg.com/profile_images/864104988146114560/MSWTWwno_400x400.jpg"
-                          />
+                          <Avatar alt="Remy Sharp" src={profile?.bio?.image} />
                         </IconButton>
                       ) : (
                         <RoundedButton
@@ -353,7 +455,7 @@ export default function MainNavbar(props: Props) {
                     <>
                       <CustomLink
                         to={isAuth ? "/dashboard" : "/login"}
-                        sx={{ color: scrolled ? "black" : "white" }}
+                        sx={{ color: "black" }}
                       >
                         {`${
                           isAuth ? profile?.bio?.firstname + "..." : "Sign in"
@@ -361,10 +463,7 @@ export default function MainNavbar(props: Props) {
                       </CustomLink>
                       {isAuth ? (
                         <IconButton onClick={() => navigate("/dashboard")}>
-                          <Avatar
-                            alt="Remy Sharp"
-                            src="https://pbs.twimg.com/profile_images/864104988146114560/MSWTWwno_400x400.jpg"
-                          />
+                          <Avatar alt="Remy Sharp" src={profile?.bio?.image} />
                         </IconButton>
                       ) : (
                         <RoundedButtonOutlined
@@ -372,7 +471,8 @@ export default function MainNavbar(props: Props) {
                           sx={{
                             width: 86,
                             height: 36,
-                            color: "white",
+                            color: theme.palette.primary.main,
+                            borderColor: theme.palette.primary.main,
                           }}
                         >
                           Join
@@ -407,46 +507,6 @@ export default function MainNavbar(props: Props) {
                   ))}
                 </Box>
               )}
-              {/* Same but for 10inch tablets */}
-              {/* {show && deviceType === "tabletBig" && (
-                <Box
-                  display={"flex"}
-                  flexDirection={"row"}
-                  justifyContent={"space-between"}
-                  alignItems={"center"}
-                >
-                  <CustomLink
-                    to={""}
-                    sx={{ color: scrolled ? "black" : "white" }}
-                  >
-                    Graphics & Design
-                  </CustomLink>
-                  <CustomLink
-                    to={""}
-                    sx={{ color: scrolled ? "black" : "white" }}
-                  >
-                    Programming & Tech
-                  </CustomLink>
-                  <CustomLink
-                    to={""}
-                    sx={{ color: scrolled ? "black" : "white" }}
-                  >
-                    Catering Services
-                  </CustomLink>
-                  <CustomLink
-                    to={""}
-                    sx={{ color: scrolled ? "black" : "white" }}
-                  >
-                    Logistics & Travel
-                  </CustomLink>
-                  <CustomLink
-                    to={""}
-                    sx={{ color: scrolled ? "black" : "white" }}
-                  >
-                    General Services
-                  </CustomLink>
-                </Box>
-              )} */}
             </CustomContainer>
           </Toolbar>
         </AppBar>

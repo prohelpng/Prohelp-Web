@@ -27,8 +27,8 @@ const theme = createTheme({
     MuiContainer: {
       styleOverrides: {
         root: {
-          width: "95%",
-          maxWidth: "94%",
+          width: "86%",
+          maxWidth: "90%",
         },
         disableGutters: true,
       },
@@ -45,7 +45,7 @@ const theme = createTheme({
     MuiTypography: {
       styleOverrides: {
         root: {
-          fontFamily: "TTFirsNeue, serif",
+          fontFamily: "Poppins",
         },
       },
     },
@@ -73,11 +73,19 @@ const theme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          boxShadow: 'none',
-          border: '0.4px solid'
-        }
-      }
-    }
+          boxShadow: "none",
+          border: "0.4px solid",
+        },
+      },
+    },
+    MuiToggleButton: {
+      styleOverrides: {
+        root: {
+          textAlign: "left",
+          justifyContent: "start",
+        },
+      },
+    },
   },
 });
 

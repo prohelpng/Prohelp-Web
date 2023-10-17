@@ -1,8 +1,6 @@
 import {
   Box,
-  Container,
   Grid,
-  Toolbar,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -10,6 +8,7 @@ import ContactForm from "../../components/forms/contact_form";
 import image from "../../assets/images/contactus.svg";
 import React from "react";
 import theme from "../../assets/theme/Theme";
+import CustomContainer from "../../components/container";
 
 export default function ContactUs() {
   const embedUrlLeft = "https://maps.google.com/maps?q=";
@@ -33,7 +32,7 @@ export default function ContactUs() {
 
   return (
     <Box pb={6} pt={4}>
-      <Container>
+      <CustomContainer>
         <Box
           pb={6}
           width={"100%"}
@@ -94,7 +93,7 @@ export default function ContactUs() {
             src={embedUrlLeft + address + embedUrlRight}
           />
         </Box>
-      </Container>
+      </CustomContainer>
     </Box>
   );
 }

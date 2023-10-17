@@ -38,7 +38,7 @@ export default function Login(): React.JSX.Element {
     } else {
       setDeviceType("pc");
     }
-  }, []);
+  }, [mobile, tablet]);
 
   return (
     <Box bgcolor={"white"} height={"100%"}>
@@ -71,6 +71,7 @@ export default function Login(): React.JSX.Element {
         <Box height={"100%"}>
           {deviceType !== "mobile" && <Toolbar />}
           <Container
+          maxWidth={false}
             sx={{
               width:
                 deviceType === "pc"

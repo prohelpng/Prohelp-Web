@@ -77,7 +77,7 @@ export default function VerifyOTP(): React.JSX.Element {
 
         dispatch(setLoading(false));
         toast.success(response.message ?? "Success");
-        navigate("/dashboard");
+        navigate("/dashboard/account");
       } catch (err: any) {
         dispatch(setLoading(false));
         console.log(err?.message || "Check internet");
@@ -87,10 +87,8 @@ export default function VerifyOTP(): React.JSX.Element {
   });
 
   const {
-    errors,
-    touched,
     values,
-    getFieldProps,
+    // getFieldProps,
     handleSubmit,
     setFieldValue,
   } = formik;
@@ -147,7 +145,7 @@ export default function VerifyOTP(): React.JSX.Element {
           </Box>
         </Toolbar>
       </AppBar>
-      <Container>
+      <Container maxWidth={false}>
         <FormikProvider value={formik}>
           <Card
             sx={{

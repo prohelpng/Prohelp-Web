@@ -7,6 +7,11 @@ interface UserState {
   professionals: any;
   recruiters: any;
   savedPros: any;
+  filterLocation: string;
+  prosByCategory: any;
+  filterAge: string | null;
+  filterMaritalStatus: string | null;
+  filterSkills: string[];
 }
 
 // Define the initial state using that type
@@ -14,6 +19,11 @@ const initialState: UserState = {
   professionals: [],
   recruiters: [],
   savedPros: [],
+  prosByCategory: {},
+  filterAge: null,
+  filterSkills: [],
+  filterMaritalStatus: null,
+  filterLocation: "All of Nigeria",
 };
 
 export const usersSlice = createSlice({
@@ -29,10 +39,34 @@ export const usersSlice = createSlice({
     setSavedPro: (state, action: PayloadAction<any>) => {
       state.savedPros = action.payload;
     },
+    setFilterLocation: (state, action: PayloadAction<string>) => {
+      state.filterLocation = action.payload;
+    },
+    setProsByCategory: (state, action: PayloadAction<string>) => {
+      state.prosByCategory = action.payload;
+    },
+    setFilterAge: (state, action: PayloadAction<string | null>) => {
+      state.filterAge = action.payload;
+    },
+    setFilterSkills: (state, action: PayloadAction<string[]>) => {
+      state.filterSkills = action.payload;
+    },
+    setFilterMaritalStatus: (state, action: PayloadAction<string | null>) => {
+      state.filterMaritalStatus = action.payload;
+    },
   },
 });
 
-export const { setProfessionals, setRecruiters, setSavedPro } = usersSlice.actions;
+export const {
+  setProfessionals,
+  setRecruiters,
+  setSavedPro,
+  setFilterLocation,
+  setProsByCategory,
+  setFilterAge,
+  setFilterSkills,
+  setFilterMaritalStatus
+} = usersSlice.actions;
 
 // // Other code such as selectors can use the imported `RootState` type
 // export const getAuth = (state: RootState) => state.auth.isAuth;
